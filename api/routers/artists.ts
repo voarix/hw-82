@@ -1,7 +1,7 @@
 import express from "express";
 import Artist from "../models/Artist";
 import { Error } from "mongoose";
-import { imagesUpload } from "../multer";
+import { artistImage } from "../multer";
 import { ArtistMutation } from "../types";
 
 const artistRouter = express.Router();
@@ -15,11 +15,11 @@ artistRouter.get("/", async (req, res, next) => {
   }
 });
 
-artistRouter.post("/", imagesUpload.single("image"), async (req, res, next) => {
+artistRouter.post("/", artistImage.single("image"), async (req, res, next) => {
   try {
     const newArtist: ArtistMutation = {
       name: req.body.name,
-      image: req.file ? "images/" + req.file.filename : null,
+      image: req.file ? "artists/" + req.file.filename : null,
       info: req.body.info,
     };
 
