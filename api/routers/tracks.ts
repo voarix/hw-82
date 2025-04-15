@@ -7,12 +7,30 @@ const trackRouter = express.Router();
 
 trackRouter.get("/", async (req, res, next) => {
   try {
-    const album_id = req.query.album as string;
-    const filter: { album?: string } = {};
+    const artist_id = req.query.artist as string | undefined;
+    const album_id = req.query.album as string | undefined;
 
-    if (album_id) filter.album = album_id;
+    if (album_id) {
+      const tracks = await Track.find({album: album_id}).populate("album", "name date");
+      res.send(tracks);
+      return;
+    }
 
-    const tracks = await Track.find(filter).populate("album", "name date");
+    if (artist_id) {
+      const tracks = await Track.find()
+        .populate({
+          path: "album",
+          match: {artist: artist_id},
+          select: "name date"
+        });
+
+      const filteredTracks = tracks.filter(track => track.album !== null);
+
+      res.send(filteredTracks);
+      return;
+    }
+
+    const tracks = await Track.find().populate("album", "name date");
     res.send(tracks);
   } catch (e) {
     next(e);
