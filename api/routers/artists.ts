@@ -24,7 +24,7 @@ artistRouter.post("/", artistImage.single("image"), async (req, res, next) => {
     };
 
     const artist = new Artist(newArtist);
-    await artist.save()
+    await artist.save();
     res.send(artist);
   } catch (error) {
     if (error instanceof Error.ValidationError) {

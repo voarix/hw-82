@@ -20,10 +20,19 @@ albumRouter.get("/", async (req, res, next) => {
   }
 });
 
+albumRouter.get("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    const album = await Album.findById(id).populate("artist", "name");
+    res.send(album);
+  } catch (e) {
+    next(e);
+  }
+});
+
 albumRouter.post("/", albumImage.single("image"), async (req, res, next) => {
   try {
-    console.log(typeof req.body.date);
-
     const newAlbum: AlbumMutation = {
       name: req.body.name,
       artist: req.body.artist,

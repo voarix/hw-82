@@ -7,6 +7,12 @@ export interface ArtistMutation {
 export interface AlbumMutation {
   name: string;
   artist: string;
-  date: string | Date;
+  date: Date;
   image: string | null;
+}
+
+export interface TrackMutation {
+  name: string;
+  album: string;
+  duration: string;
 }
