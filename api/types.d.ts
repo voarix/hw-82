@@ -16,3 +16,9 @@ export interface TrackMutation {
   album: string;
   duration: string;
 }
+
+export interface UserMutation {
+  username: string;
+  password: string;
+  token: string;
+}
