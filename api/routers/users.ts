@@ -53,7 +53,6 @@ userRouter.post("/sessions", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
 });
 
 export default userRouter;
