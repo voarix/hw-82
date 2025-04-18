@@ -5,7 +5,6 @@ import { UserMutation } from "../types";
 
 interface UserMethods {
   checkPassword: (password: string) => Promise<boolean>;
-
   generateToken(): void;
 }
 

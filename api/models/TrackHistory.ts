@@ -40,7 +40,7 @@ const HistorySchema = new Schema({
   datetime: {
     type: Date,
     required: [true, "Datetime is required"],
-    default: Date.now,
+    default: Date.now(),
   },
 });
 

@@ -5,7 +5,6 @@ import TrackHistory from "../models/TrackHistory";
 
 const trackHistoryRouter = express.Router();
 
-
 trackHistoryRouter.post("/", async (req, res, next) => {
   try {
     const token = req.get("Authorization");
@@ -23,7 +22,7 @@ trackHistoryRouter.post("/", async (req, res, next) => {
     }
 
     if (!req.body.track) {
-      res.status(401).send({error: "track id is required"});
+      res.status(404).send({error: "track id is required"});
       return;
     }
 
