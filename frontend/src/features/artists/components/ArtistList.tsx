@@ -18,7 +18,7 @@ const ArtistList = () => {
 
   if (loading) {
     return (
-      <Grid container justifyContent="center" sx={{ mt: 2}}>
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
         <CircularProgress />
       </Grid>
     );
@@ -26,18 +26,18 @@ const ArtistList = () => {
 
   return (
     <>
-        <Grid container spacing={2} sx={{ mt: 5 }}>
-          {artists.map((artist) => (
-            <ArtistCard
-              key={artist._id}
-              id={artist._id}
-              name={artist.name}
-              image={
-                artist.image ? apiUrl + "/" + artist.image : "/default.jpg"
-              }
-            />
-          ))}
-        </Grid>
+      <Grid container spacing={2} sx={{ mt: 5 }}>
+        {artists.map((artist) => (
+          <ArtistCard
+            key={artist._id}
+            id={artist._id}
+            name={artist.name}
+            image={
+              artist.image ? apiUrl + "/" + artist.image : "/default.jpg"
+            }
+          />
+        ))}
+      </Grid>
     </>
   );
 };

@@ -13,7 +13,7 @@ albumRouter.get("/", async (req, res, next) => {
 
     if (artist_id) filter.artist = artist_id;
 
-    const albums = await Album.find(filter).populate("artist", "name");
+    const albums = await Album.find(filter).populate("artist", "name").sort({ date: -1 });
     res.send(albums);
   } catch (e) {
     next(e);
@@ -37,7 +37,7 @@ albumRouter.post("/", albumImage.single("image"), async (req, res, next) => {
       name: req.body.name,
       artist: req.body.artist,
       date: req.body.date,
-      image: req.file ? "albums/" + req.file.filename : "/default.jpg",
+      image: req.file ? "albums/" + req.file.filename : "/defaultFix.jpg",
     };
 
     const album = new Album(newAlbum);

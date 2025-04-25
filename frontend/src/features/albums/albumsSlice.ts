@@ -14,7 +14,6 @@ export const selectAlbumsLoading = (state: RootState) =>
   state.albums.fetchLoading;
 export const selectAlbumsError = (state: RootState) => state.albums.error;
 
-
 const initialState: AlbumsState = {
   items: [],
   fetchLoading: false,

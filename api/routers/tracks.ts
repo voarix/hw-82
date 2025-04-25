@@ -32,7 +32,7 @@ trackRouter.get("/", async (req, res, next) => {
       return;
     }
 
-    const tracks = await Track.find().populate("album", "name date");
+    const tracks = await Track.find().populate("album", "name date").sort("number");
     res.send(tracks);
   } catch (e) {
     next(e);

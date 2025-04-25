@@ -10,7 +10,7 @@ import { CircularProgress } from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 const AlbumArtist = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useAppDispatch();
   const albums = useAppSelector(selectAlbums);
   const loading = useAppSelector(selectAlbumsLoading);
@@ -21,17 +21,16 @@ const AlbumArtist = () => {
     }
   }, [dispatch, id]);
 
-
   if (loading) {
     return (
-      <Grid container justifyContent="center" sx={{ mt: 2}}>
+      <Grid container justifyContent="center" sx={{ mt: 2 }}>
         <CircularProgress />
       </Grid>
     );
   }
 
   return (
-    <Grid container spacing={2} sx={{mt: 5}}>
+    <Grid container spacing={2} sx={{ mt: 5 }}>
       {albums.length === 0 ? (
         <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
           No albums
@@ -41,8 +40,9 @@ const AlbumArtist = () => {
           <AlbumCard
             key={album._id}
             name={album.name}
-            image={album.image ? apiUrl + "/" + album.image : "/default.jpg"}
+            image={album.image ? apiUrl + "/" + album.image : "/defaultFix.jpg"}
             date={album.date}
+            id={album._id}
           />
         ))
       )}

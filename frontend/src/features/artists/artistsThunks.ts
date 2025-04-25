@@ -7,7 +7,7 @@ export const fetchAllArtists = createAsyncThunk<
   IArtist[],
   void,
   { rejectValue: ValidationError }
->("artists/fetchAll", async (_, { rejectWithValue }) => {
+>("artists/fetchAllArtists", async (_, { rejectWithValue }) => {
   try {
     const response = await axiosApi.get<IArtist[]>("/artists");
     return response.data;

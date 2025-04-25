@@ -13,6 +13,14 @@ export interface IAlbum {
   image: string | null;
 }
 
+export interface ITrack {
+  _id: string;
+  name: string;
+  album: string;
+  duration: string;
+  number: number;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

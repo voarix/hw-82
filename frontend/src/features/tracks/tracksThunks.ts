@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IAlbum, ValidationError } from "../../types";
-import axiosApi from "../../axiosApi.ts";
+import { ITrack, ValidationError } from "../../types";
+import axiosApi from "../../axiosApi";
 import { isAxiosError } from "axios";
 
-export const fetchAlbumsByArtist = createAsyncThunk<
-  IAlbum[],
+export const fetchTracksByAlbum = createAsyncThunk<
+  ITrack[],
   string,
   { rejectValue: ValidationError }
->("artists/fetchAlbumsByArtist", async (artistId, { rejectWithValue }) => {
+>("tracks/fetchTracksByAlbum", async (albumId, { rejectWithValue }) => {
   try {
-    const response = await axiosApi.get<IAlbum[]>(`/albums?artist=${artistId}`);
+    const response = await axiosApi.get<ITrack[]>(`/tracks?album=${albumId}`);
     return response.data;
   } catch (error) {
     if (

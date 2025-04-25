@@ -28,7 +28,12 @@ const ArtistCard: React.FC<Props> = ({ name, image, id }) => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button size="small" color="primary" component={Link} to={"/artists/" + id}>
+          <Button
+            size="small"
+            color="primary"
+            component={Link}
+            to={"/artists/" + id}
+          >
             Share
           </Button>
         </CardActions>

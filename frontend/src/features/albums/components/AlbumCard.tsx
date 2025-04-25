@@ -7,18 +7,20 @@ import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardActions from "@mui/material/CardActions";
 import Grid from "@mui/material/Grid2";
+import { Link } from "react-router-dom";
 
 interface Props {
   name: string;
   image: string;
   date: number;
+  id: string;
 }
 
-const AlbumCard: React.FC<Props> = ({ name, image, date}) => {
+const AlbumCard: React.FC<Props> = ({ name, image, date, id }) => {
   return (
     <Grid size={{ sm: 6, md: 4 }} sx={{ mb: 2 }}>
       <Card>
-        <CardActionArea>
+        <CardActionArea component={Link} to={`/albums/${id}/tracks`}>
           <CardMedia component="img" height="350" image={image} alt={name} />
           <CardContent>
             <Typography variant="h6" component="div">
@@ -30,7 +32,7 @@ const AlbumCard: React.FC<Props> = ({ name, image, date}) => {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Button>
+          <Button component={Link} to={`/albums/${id}/tracks`}>
             Share
           </Button>
         </CardActions>
