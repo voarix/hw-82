@@ -1,7 +1,7 @@
 import express from "express";
 import Artist from "../models/Artist";
 import { Error } from "mongoose";
-import { artistImage } from "../multer";
+import { artistImage } from "../middleware/multer";
 import { ArtistMutation } from "../types";
 
 const artistRouter = express.Router();

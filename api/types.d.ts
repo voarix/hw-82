@@ -7,7 +7,7 @@ export interface ArtistMutation {
 export interface AlbumMutation {
   name: string;
   artist: string;
-  date: Date;
+  date: number;
   image: string | null;
 }
 

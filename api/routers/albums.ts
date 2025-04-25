@@ -2,7 +2,7 @@ import express from "express";
 import Album from "../models/Album";
 import { Error } from "mongoose";
 import { AlbumMutation } from "../types";
-import { albumImage } from "../multer";
+import { albumImage } from "../middleware/multer";
 
 const albumRouter = express.Router();
 
@@ -36,8 +36,8 @@ albumRouter.post("/", albumImage.single("image"), async (req, res, next) => {
     const newAlbum: AlbumMutation = {
       name: req.body.name,
       artist: req.body.artist,
-      date: new Date(req.body.date),
-      image: req.file ? "albums/" + req.file.filename : null,
+      date: req.body.date,
+      image: req.file ? "albums/" + req.file.filename : "/default.jpg",
     };
 
     const album = new Album(newAlbum);
