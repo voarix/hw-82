@@ -30,7 +30,8 @@ const TrackSchema = new Schema({
   },
   number: {
     type: Number,
-      required: [true, "Album number is required"],
+    required: [true, "Album number is required"],
+    min: 1,
   }
 });
 

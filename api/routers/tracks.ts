@@ -11,7 +11,8 @@ trackRouter.get("/", async (req, res, next) => {
     const album_id = req.query.album as string | undefined;
 
     if (album_id) {
-      const tracks = await Track.find({album: album_id}).populate("album", "name date");
+      const tracks = await Track.find({album: album_id})
+        .populate("album", "name date").sort("number");
       res.send(tracks);
       return;
     }
@@ -22,7 +23,8 @@ trackRouter.get("/", async (req, res, next) => {
           path: "album",
           match: {artist: artist_id},
           select: "name date"
-        });
+        })
+        .sort("number");
 
       const filteredTracks = tracks.filter(track => track.album !== null);
 
@@ -43,6 +45,7 @@ trackRouter.post("/", async (req, res, next) => {
       name: req.body.name,
       album: req.body.album,
       duration: req.body.duration,
+      number: req.body.number
     };
 
     const track = new Track(newTrack);
