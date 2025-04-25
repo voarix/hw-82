@@ -8,7 +8,10 @@ export interface IArtist {
 export interface IAlbum {
   _id: string;
   name: string;
-  artist: string;
+  artist: {
+    _id: string;
+    name: string;
+  };
   date: number;
   image: string | null;
 }

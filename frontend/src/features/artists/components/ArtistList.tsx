@@ -32,9 +32,7 @@ const ArtistList = () => {
             key={artist._id}
             id={artist._id}
             name={artist.name}
-            image={
-              artist.image ? apiUrl + "/" + artist.image : "/default.jpg"
-            }
+            image={artist.image ? apiUrl + "/" + artist.image : "/default.jpg"}
           />
         ))}
       </Grid>

@@ -58,7 +58,7 @@ const run = async () => {
     }
   );
 
-  const [track1, track2, track3, track4, track5] = await Track.create(
+   await Track.create(
     {
       name: "Track 1",
       album: album1._id,

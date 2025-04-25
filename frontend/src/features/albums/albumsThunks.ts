@@ -22,3 +22,23 @@ export const fetchAlbumsByArtist = createAsyncThunk<
     throw error;
   }
 });
+
+export const fetchAlbumById = createAsyncThunk<
+  IAlbum,
+  string,
+  { rejectValue: ValidationError }
+>("albums/fetchAlbumById", async (id, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.get<IAlbum>(`/albums/${id}`);
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as ValidationError);
+    }
+    throw error;
+  }
+});
