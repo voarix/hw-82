@@ -28,6 +28,10 @@ const TrackSchema = new Schema({
     type: String,
     required: [true, "Duration is required"],
   },
+  number: {
+    type: Number,
+      required: [true, "Album number is required"],
+  }
 });
 
 
