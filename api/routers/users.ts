@@ -15,7 +15,6 @@ userRouter.post("/", async (req, res, next) => {
     await user.save();
     res.send({message: "Username and password is correct", user});
   } catch (error) {
-
     if (error instanceof Error.ValidationError) {
       res.status(400).send(error);
       return;

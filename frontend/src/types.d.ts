@@ -35,6 +35,11 @@ export interface RegisterMutation {
   password: string;
 }
 
+export interface LoginMutation {
+  username: string;
+  password: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {
@@ -45,4 +50,8 @@ export interface ValidationError {
   message: string;
   name: string;
   _message: string;
+}
+
+export interface GlobalError {
+  error: string;
 }
