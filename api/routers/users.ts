@@ -13,7 +13,7 @@ userRouter.post("/", async (req, res, next) => {
 
     user.generateToken();
     await user.save();
-    res.send(user);
+    res.send({message: "Username and password is correct", user});
   } catch (error) {
 
     if (error instanceof Error.ValidationError) {

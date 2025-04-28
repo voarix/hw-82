@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Home from "../Containers/Home.tsx";
 import AlbumArtist from "./features/albums/AlbumArtist.tsx";
 import TrackAlbum from "./features/tracks/TrackAlbum.tsx";
+import Register from "./features/users/Register.tsx";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/artists/:id" element={<AlbumArtist />} />
             <Route path="/albums/:albumId/tracks" element={<TrackAlbum />} />
+            <Route path="/register" element={<Register />} />
             <Route
               path="*"
               element={<Typography variant="h4">Not found page</Typography>}
