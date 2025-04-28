@@ -66,6 +66,7 @@ const TrackAlbum: React.FC = () => {
         ) : (
           tracks.map((track) => (
             <TrackCard
+              trackId={track._id}
               key={track._id}
               name={track.name}
               duration={track.duration}

@@ -21,9 +21,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
     setUserOptionsEl(null);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logout());
-    persistor.purge();
+    await persistor.purge();
   };
 
   return (

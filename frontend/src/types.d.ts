@@ -40,6 +40,17 @@ export interface LoginMutation {
   password: string;
 }
 
+export interface TrackHistory {
+  user: string;
+  track: string;
+  datetime: string;
+}
+
+export interface TrackHistoryResponse {
+  message: string;
+  trackHistory: TrackHistory;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {
