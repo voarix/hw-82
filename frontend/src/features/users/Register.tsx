@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { Button, TextField } from "@mui/material";
 import { register } from "./usersThunks.ts";
+import { toast } from "react-toastify";
 
 const initialForm: RegisterMutation = {
   username: "",
@@ -41,6 +42,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await dispatch(register(form)).unwrap();
+      toast.success('Registration is successful');
       navigate("/");
     } catch (error) {
       console.error(error);

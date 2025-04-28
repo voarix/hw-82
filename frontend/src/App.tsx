@@ -7,11 +7,17 @@ import AlbumArtist from "./features/albums/AlbumArtist.tsx";
 import TrackAlbum from "./features/tracks/TrackAlbum.tsx";
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
+import { ToastContainer } from "react-toastify";
+import AppToolbar from "../components/UI/AppToolbar.tsx";
 
 const App = () => {
   return (
     <>
       <CssBaseline />
+      <ToastContainer autoClose={1000}/>
+      <header>
+        <AppToolbar />
+      </header>
       <main>
         <Container maxWidth="xl">
           <Routes>

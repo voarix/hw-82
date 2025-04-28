@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { Alert, Button, TextField } from "@mui/material";
 import { login } from "./usersThunks.ts";
+import { toast } from "react-toastify";
 
 const initialForm: LoginMutation = {
   username: "",
@@ -33,6 +34,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await dispatch(login(form)).unwrap();
+      toast.success('Login is successful');
       navigate("/");
     } catch (error) {
       console.error(error);
