@@ -34,7 +34,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await dispatch(login(form)).unwrap();
-      toast.success('Login is successful');
+      toast.success("Login is successful");
       navigate("/");
     } catch (error) {
       console.error(error);

@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid2";
 import AnonymousMenu from "./AnonymousMenu";
 import { useAppSelector } from "../../src/app/hooks";
 import { selectUser } from "../../src/features/users/usersSlice";
+import UserMenu from "./UserMenu.tsx";
 
 const Link = styled(NavLink)({
   color: "inherit",
@@ -29,7 +30,7 @@ const AppToolbar = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               <Link to="/">Spotify</Link>
             </Typography>
-            {user ? <Typography>Hello, {user.username}</Typography> : <AnonymousMenu />}
+            {user ? <UserMenu user={user} /> : <AnonymousMenu />}
           </Grid>
         </Container>
       </Toolbar>

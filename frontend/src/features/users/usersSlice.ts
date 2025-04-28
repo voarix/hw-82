@@ -31,7 +31,11 @@ export const selectLoginError = (state: RootState) => state.users.loginError;
 export const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    logout(state) {
+      state.user = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(register.pending, (state) => {
@@ -62,4 +66,5 @@ export const usersSlice = createSlice({
   },
 });
 
+export const { logout } = usersSlice.actions;
 export const usersReducer = usersSlice.reducer;

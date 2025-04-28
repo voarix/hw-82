@@ -14,7 +14,7 @@ const App = () => {
   return (
     <>
       <CssBaseline />
-      <ToastContainer autoClose={1000}/>
+      <ToastContainer autoClose={1000} />
       <header>
         <AppToolbar />
       </header>

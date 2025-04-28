@@ -42,7 +42,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await dispatch(register(form)).unwrap();
-      toast.success('Registration is successful');
+      toast.success("Registration is successful");
       navigate("/");
     } catch (error) {
       console.error(error);
