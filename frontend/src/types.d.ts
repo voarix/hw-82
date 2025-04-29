@@ -22,6 +22,7 @@ export interface ITrack {
   album: string;
   duration: string;
   number: number;
+  youtubeLink?: string;
 }
 
 export interface User {

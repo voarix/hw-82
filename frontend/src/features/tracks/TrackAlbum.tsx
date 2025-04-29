@@ -71,6 +71,7 @@ const TrackAlbum: React.FC = () => {
               name={track.name}
               duration={track.duration}
               number={String(track.number)}
+              youtubeLink={track.youtubeLink ? track.youtubeLink : undefined}
             />
           ))
         )}

@@ -32,7 +32,8 @@ const TrackSchema = new Schema({
     type: Number,
     required: [true, "Album number is required"],
     min: 1,
-  }
+  },
+  youtube: String,
 });
 
 
