@@ -105,7 +105,7 @@ const Login = () => {
         </Button>
         <Grid container justifyContent="space-between">
           <Grid sx={{ mx: "auto" }}>
-            <Link to="/login" variant="body2" component={RouterLink}>
+            <Link to="/register" variant="body2" component={RouterLink}>
               Don't have an account, yet? Sign up
             </Link>
           </Grid>
