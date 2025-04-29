@@ -51,6 +51,26 @@ export interface TrackHistoryResponse {
   trackHistory: TrackHistory;
 }
 
+export interface TrackHistoryResponse {
+  _id: string;
+  user: string;
+  track: {
+    _id: string;
+    name: string;
+    album: {
+      _id: string;
+      name: string;
+      artist: {
+        _id: string;
+        name: string;
+      };
+    };
+    duration: string;
+    number: number;
+  };
+  datetime: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

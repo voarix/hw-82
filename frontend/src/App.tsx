@@ -9,6 +9,7 @@ import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import { ToastContainer } from "react-toastify";
 import AppToolbar from "../components/UI/AppToolbar.tsx";
+import TrackHistory from "./features/trackHistory/TrackHistory.tsx";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/artists/:id" element={<AlbumArtist />} />
             <Route path="/albums/:albumId/tracks" element={<TrackAlbum />} />
+            <Route path="/track-history" element={<TrackHistory />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route
