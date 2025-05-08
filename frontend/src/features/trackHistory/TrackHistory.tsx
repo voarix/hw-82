@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectTrackHistory, selectTrackHistoryLoading } from "./trackHistorySlice";
+import {
+  selectTrackHistory,
+  selectTrackHistoryLoading,
+} from "./trackHistorySlice";
 import { fetchTrackHistory } from "./trackHistoryThunks.ts";
 import { CircularProgress, Container } from "@mui/material";
 import Typography from "@mui/material/Typography";

@@ -19,8 +19,10 @@ export interface TrackMutation {
   youtubeLink?: string;
 }
 
-export interface UserMutation {
+export interface UserFields {
   username: string;
   password: string;
   token: string;
+  role: string;
+  __confirmPassword: string;
 }

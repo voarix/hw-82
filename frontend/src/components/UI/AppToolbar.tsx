@@ -1,9 +1,9 @@
 import { AppBar, Container, styled, Toolbar, Typography } from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import AnonymousMenu from "./AnonymousMenu";
-import { useAppSelector } from "../../src/app/hooks";
-import { selectUser } from "../../src/features/users/usersSlice";
+import AnonymousMenu from "./AnonymousMenu.tsx";
+import { useAppSelector } from "../../app/hooks.ts";
+import { selectUser } from "../../features/users/usersSlice.ts";
 import UserMenu from "./UserMenu.tsx";
 import React from "react";
 

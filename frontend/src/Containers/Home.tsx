@@ -1,4 +1,4 @@
-import ArtistList from "../src/features/artists/components/ArtistList";
+import ArtistList from "../features/artists/components/ArtistList.tsx";
 
 const Home = () => {
   return (

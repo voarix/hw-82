@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
-import { User } from "../../src/types";
-import { useAppDispatch } from "../../src/app/hooks.ts";
-import { logout } from "../../src/features/users/usersSlice.ts";
-import { persistor } from "../../src/app/store.ts";
+import { User } from "../../types";
+import { useAppDispatch } from "../../app/hooks.ts";
+import { logout } from "../../features/users/usersSlice.ts";
+import { persistor } from "../../app/store.ts";
+import { toast } from "react-toastify";
 
 interface Props {
   user: User;
@@ -22,8 +23,14 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   };
 
   const handleLogout = async () => {
-    dispatch(logout());
-    await persistor.purge();
+    try {
+      dispatch(logout());
+      await persistor.purge();
+      toast.success("Logout is successful");
+    } catch (e) {
+      toast.error("Logout is failed");
+      console.error(e);
+    }
   };
 
   return (

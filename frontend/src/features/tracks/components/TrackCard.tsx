@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid2";
 import { useAppDispatch } from "../../../app/hooks.ts";
 import { addTrackHistory } from "../../trackHistory/trackHistoryThunks.ts";
 import { Box, Modal } from "@mui/material";
+import Button from "@mui/material/Button";
 
 interface Props {
   trackId: string;
@@ -16,7 +17,13 @@ interface Props {
   youtubeLink?: string;
 }
 
-const TrackCard: React.FC<Props> = ({name, number, duration, trackId, youtubeLink}) => {
+const TrackCard: React.FC<Props> = ({
+  name,
+  number,
+  duration,
+  trackId,
+  youtubeLink,
+}) => {
   const dispatch = useAppDispatch();
   const [modal, setModal] = useState<boolean>(false);
   const [embLink, setEmbLink] = useState<string | undefined>(undefined);
@@ -25,7 +32,10 @@ const TrackCard: React.FC<Props> = ({name, number, duration, trackId, youtubeLin
     await dispatch(addTrackHistory(trackId));
 
     if (youtubeLink) {
-      const linkEmbed = youtubeLink.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
+      const linkEmbed = youtubeLink.replace(
+        "https://www.youtube.com/watch?v=",
+        "https://www.youtube.com/embed/",
+      );
       setEmbLink(linkEmbed);
       setModal(true);
     }
@@ -33,7 +43,7 @@ const TrackCard: React.FC<Props> = ({name, number, duration, trackId, youtubeLin
 
   return (
     <>
-      <Grid size={{sm: 6, md: 4}} sx={{mb: 2}}>
+      <Grid size={{ sm: 6, md: 4 }} sx={{ mb: 2 }}>
         <Card>
           <CardActionArea onClick={handlePlay}>
             <CardContent>
@@ -46,34 +56,37 @@ const TrackCard: React.FC<Props> = ({name, number, duration, trackId, youtubeLin
               <Typography variant="body2" color="text.secondary">
                 Duration: {duration}
               </Typography>
+              <Button onClick={handlePlay}>Play</Button>
             </CardContent>
           </CardActionArea>
         </Card>
       </Grid>
 
       {youtubeLink && (
-      <Modal open={modal} onClose={() => setModal(false)}>
-        <Box sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "80%",
-          maxWidth: 800,
-          bgcolor: "background.paper",
-          boxShadow: 24,
-          p: 1,
-          borderRadius: 2,
-        }}>
-          <iframe
-            width="100%"
-            style={{ borderRadius: 4}}
-            height="450"
-            src={`${embLink}?autoplay=1`}
-            allowFullScreen
-          />
-        </Box>
-      </Modal>
+        <Modal open={modal} onClose={() => setModal(false)}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "80%",
+              maxWidth: 800,
+              bgcolor: "background.paper",
+              boxShadow: 24,
+              p: 1,
+              borderRadius: 2,
+            }}
+          >
+            <iframe
+              width="100%"
+              style={{ borderRadius: 4 }}
+              height="450"
+              src={`${embLink}?autoplay=1`}
+              allowFullScreen
+            />
+          </Box>
+        </Modal>
       )}
     </>
   );

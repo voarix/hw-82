@@ -2,13 +2,13 @@ import "./App.css";
 import { Container, CssBaseline } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import Home from "../Containers/Home.tsx";
+import Home from "./Containers/Home.tsx";
 import AlbumArtist from "./features/albums/AlbumArtist.tsx";
 import TrackAlbum from "./features/tracks/TrackAlbum.tsx";
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import { ToastContainer } from "react-toastify";
-import AppToolbar from "../components/UI/AppToolbar.tsx";
+import AppToolbar from "./components/UI/AppToolbar.tsx";
 import TrackHistory from "./features/trackHistory/TrackHistory.tsx";
 
 const App = () => {
