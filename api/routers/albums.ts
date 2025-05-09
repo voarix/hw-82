@@ -3,6 +3,7 @@ import Album from "../models/Album";
 import { Error } from "mongoose";
 import { AlbumMutation } from "../types";
 import { albumImage } from "../middleware/multer";
+import auth, { RequestWithUser } from "../middleware/auth";
 
 const albumsRouter = express.Router();
 
@@ -31,13 +32,16 @@ albumsRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-albumsRouter.post("/", albumImage.single("image"), async (req, res, next) => {
+albumsRouter.post("/", auth ,albumImage.single("image"), async (req, res, next) => {
   try {
+    const user = (req as RequestWithUser).user;
+
     const newAlbum: AlbumMutation = {
       name: req.body.name,
       artist: req.body.artist,
       date: req.body.date,
       image: req.file ? "albums/" + req.file.filename : "/default.jpg",
+      user: String(user._id),
     };
 
     const album = new Album(newAlbum);

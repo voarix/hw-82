@@ -2,6 +2,7 @@ import express from "express";
 import { Error } from "mongoose";
 import { TrackMutation } from "../types";
 import Track from "../models/Track";
+import auth, { RequestWithUser } from "../middleware/auth";
 
 const tracksRouter = express.Router();
 
@@ -39,14 +40,17 @@ tracksRouter.get("/", async (req, res, next) => {
   }
 });
 
-tracksRouter.post("/", async (req, res, next) => {
+tracksRouter.post("/", auth ,async (req, res, next) => {
   try {
+    const user = (req as RequestWithUser).user;
+
     const newTrack: TrackMutation = {
       name: req.body.name,
       album: req.body.album,
       duration: req.body.duration,
       number: req.body.number,
-      youtubeLink: req.body.youtubeLink
+      youtubeLink: req.body.youtubeLink,
+      user: String(user._id),
     };
 
     const track = new Track(newTrack);
