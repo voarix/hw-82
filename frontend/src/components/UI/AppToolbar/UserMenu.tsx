@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
-import { User } from "../../types";
-import { useAppDispatch } from "../../app/hooks.ts";
-import { logout } from "../../features/users/usersSlice.ts";
-import { persistor } from "../../app/store.ts";
+import { User } from "../../../types";
+import { useAppDispatch } from "../../../app/hooks.ts";
+import { logout } from "../../../features/users/usersSlice.ts";
+import { persistor } from "../../../app/store.ts";
 import { toast } from "react-toastify";
 
 interface Props {

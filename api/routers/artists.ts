@@ -4,9 +4,9 @@ import { Error } from "mongoose";
 import { artistImage } from "../middleware/multer";
 import { ArtistMutation } from "../types";
 
-const artistRouter = express.Router();
+const artistsRouter = express.Router();
 
-artistRouter.get("/", async (req, res, next) => {
+artistsRouter.get("/", async (req, res, next) => {
   try {
     const artists = await Artist.find();
     res.send(artists);
@@ -15,7 +15,7 @@ artistRouter.get("/", async (req, res, next) => {
   }
 });
 
-artistRouter.post("/", artistImage.single("image"), async (req, res, next) => {
+artistsRouter.post("/", artistImage.single("image"), async (req, res, next) => {
   try {
     const newArtist: ArtistMutation = {
       name: req.body.name,
@@ -35,4 +35,4 @@ artistRouter.post("/", artistImage.single("image"), async (req, res, next) => {
   }
 });
 
-export default artistRouter;
+export default artistsRouter;

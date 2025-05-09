@@ -4,9 +4,9 @@ import { Error } from "mongoose";
 import { AlbumMutation } from "../types";
 import { albumImage } from "../middleware/multer";
 
-const albumRouter = express.Router();
+const albumsRouter = express.Router();
 
-albumRouter.get("/", async (req, res, next) => {
+albumsRouter.get("/", async (req, res, next) => {
   try {
     const artist_id = req.query.artist as string;
     const filter: { artist?: string } = {};
@@ -20,7 +20,7 @@ albumRouter.get("/", async (req, res, next) => {
   }
 });
 
-albumRouter.get("/:id", async (req, res, next) => {
+albumsRouter.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
 
@@ -31,7 +31,7 @@ albumRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-albumRouter.post("/", albumImage.single("image"), async (req, res, next) => {
+albumsRouter.post("/", albumImage.single("image"), async (req, res, next) => {
   try {
     const newAlbum: AlbumMutation = {
       name: req.body.name,
@@ -52,4 +52,4 @@ albumRouter.post("/", albumImage.single("image"), async (req, res, next) => {
   }
 });
 
-export default albumRouter;
+export default albumsRouter;

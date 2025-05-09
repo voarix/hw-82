@@ -3,20 +3,21 @@ import config from "./config";
 import Artist from "./models/Artist";
 import Album from "./models/Album";
 import Track from "./models/Track";
+import User from "./models/User";
 
 
 const run = async () => {
-    await mongoose.connect(config.db);
-    const db = mongoose.connection;
+  await mongoose.connect(config.db);
+  const db = mongoose.connection;
 
-    try {
-        await db.dropCollection('artists');
-        await db.dropCollection('albums');
-        await db.dropCollection('tracks');
-    } catch (error) {
-        console.log('Collections were not present, skipping drop');
-    }
-
+  try {
+    await db.dropCollection("artists");
+    await db.dropCollection("albums");
+    await db.dropCollection("tracks");
+    await db.dropCollection("users");
+  } catch (error) {
+    console.log("Collections were not present, skipping drop");
+  }
 
   const [artist1, artist2] = await Artist.create(
     {
@@ -36,29 +37,29 @@ const run = async () => {
       name: "Album 1",
       artist: artist1._id,
       date: 2022,
-      image: 'fixtures/album1.jpg',
+      image: "fixtures/album1.jpg",
     },
     {
       name: "Album 2",
       artist: artist1._id,
       date: 2023,
-      image: 'fixtures/album2.jpg',
+      image: "fixtures/album2.jpg",
     },
     {
       name: "Album 3",
       artist: artist2._id,
       date: 2021,
-      image: 'fixtures/album3.jpg',
+      image: "fixtures/album3.jpg",
     },
     {
       name: "Album 4",
       artist: artist2._id,
       date: 2024,
-      image: 'fixtures/album4.jpg',
+      image: "fixtures/album4.jpg",
     }
   );
 
-   await Track.create(
+  await Track.create(
     {
       name: "Track 1",
       album: album1._id,
@@ -184,6 +185,25 @@ const run = async () => {
     }
   );
 
+  const john = new User({
+    username: "John",
+    password: "123",
+    confirmPassword: "123",
+    role: "user",
+  });
+
+  john.generateToken();
+  await john.save();
+
+  const jane = new User({
+    username: "Jane",
+    password: "123",
+    confirmPassword: "123",
+    role: "admin",
+  });
+
+  jane.generateToken();
+  await jane.save();
   await db.close();
 };
 

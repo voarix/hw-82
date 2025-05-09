@@ -3,9 +3,9 @@ import { Error } from "mongoose";
 import express from "express";
 import TrackHistory from "../models/TrackHistory";
 
-const trackHistoryRouter = express.Router();
+const tracksHistoryRouter = express.Router();
 
-trackHistoryRouter.post("/", async (req, res, next) => {
+tracksHistoryRouter.post("/", async (req, res, next) => {
   try {
     const token = req.get("Authorization");
 
@@ -49,7 +49,7 @@ trackHistoryRouter.post("/", async (req, res, next) => {
   }
 });
 
-trackHistoryRouter.get("/", async (req, res, next) => {
+tracksHistoryRouter.get("/", async (req, res, next) => {
   try {
     const token = req.get("Authorization");
 
@@ -85,4 +85,4 @@ trackHistoryRouter.get("/", async (req, res, next) => {
   }
 });
 
-export default trackHistoryRouter;
+export default tracksHistoryRouter;

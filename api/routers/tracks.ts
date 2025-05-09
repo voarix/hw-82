@@ -3,9 +3,9 @@ import { Error } from "mongoose";
 import { TrackMutation } from "../types";
 import Track from "../models/Track";
 
-const trackRouter = express.Router();
+const tracksRouter = express.Router();
 
-trackRouter.get("/", async (req, res, next) => {
+tracksRouter.get("/", async (req, res, next) => {
   try {
     const artist_id = req.query.artist as string | undefined;
     const album_id = req.query.album as string | undefined;
@@ -39,7 +39,7 @@ trackRouter.get("/", async (req, res, next) => {
   }
 });
 
-trackRouter.post("/", async (req, res, next) => {
+tracksRouter.post("/", async (req, res, next) => {
   try {
     const newTrack: TrackMutation = {
       name: req.body.name,
@@ -61,4 +61,4 @@ trackRouter.post("/", async (req, res, next) => {
   }
 });
 
-export default trackRouter;
+export default tracksRouter;

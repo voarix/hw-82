@@ -8,7 +8,7 @@ import TrackAlbum from "./features/tracks/TrackAlbum.tsx";
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import { ToastContainer } from "react-toastify";
-import AppToolbar from "./components/UI/AppToolbar.tsx";
+import AppToolbar from "./components/UI/AppToolbar/AppToolbar.tsx";
 import TrackHistory from "./features/trackHistory/TrackHistory.tsx";
 
 const App = () => {
