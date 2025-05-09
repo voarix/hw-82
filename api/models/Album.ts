@@ -29,6 +29,10 @@ const AlbumSchema = new Schema({
     required: [true, "Date is required"],
   },
   image: String,
+  isPublished: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 

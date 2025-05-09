@@ -34,6 +34,10 @@ const TrackSchema = new Schema({
     min: 1,
   },
   youtube: String,
+  isPublished: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 

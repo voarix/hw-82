@@ -25,8 +25,6 @@ export const generateTokenJWT = (user: HydratedDocument<UserFields>) => {
 
 export const JWT_SECRET = process.env.JWT_SECRET || "default_fallback_secret";
 
-export type UserDocument = HydratedDocument<UserFields, UserMethods, UserVirtuals>;
-
 type UserModel = Model<UserFields, {}, UserMethods>;
 
 const UserSchema = new mongoose.Schema<
