@@ -7,6 +7,7 @@ import tracksRouter from "./routers/tracks";
 import usersRouter from "./routers/users";
 import tracksHistoryRouter from "./routers/trackHistory";
 import config from "./config";
+import adminRouter from "./routers/admin";
 
 const app = express();
 const port = 8000;
@@ -14,6 +15,8 @@ const port = 8000;
 app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
+
+app.use('/admin', adminRouter);
 app.use("/users", usersRouter);
 app.use("/artists", artistsRouter);
 app.use("/albums", albumsRouter);

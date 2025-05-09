@@ -7,7 +7,7 @@ import auth, { RequestWithUser } from "../middleware/auth";
 
 const artistsRouter = express.Router();
 
-artistsRouter.get("/", async (req, res, next) => {
+artistsRouter.get("/", async (_req, res, next) => {
   try {
     const artists = await Artist.find();
     res.send(artists);
@@ -16,7 +16,7 @@ artistsRouter.get("/", async (req, res, next) => {
   }
 });
 
-artistsRouter.post("/", auth ,artistImage.single("image"), async (req, res, next) => {
+artistsRouter.post("/", auth, artistImage.single("image"), async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
@@ -38,5 +38,33 @@ artistsRouter.post("/", auth ,artistImage.single("image"), async (req, res, next
     next(error);
   }
 });
+
+artistsRouter.delete("/:id", auth, artistImage.single("image"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = (req as RequestWithUser).user;
+
+    const artist = await Artist.findById(id);
+    if (!artist) {
+      res.status(404).send({error: "Artist not found"});
+      return;
+    }
+
+    if (String(artist.user) === String(user._id) && !artist.isPublished) {
+      await Artist.findByIdAndDelete(id);
+      res.send({message: "Artist deleted successfully"});
+      return;
+    }
+    res.status(403).send({error: "You must delete your own artist"});
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send({error: "Invalid id"});
+      return;
+    }
+
+    next(error);
+  }
+});
+
 
 export default artistsRouter;
