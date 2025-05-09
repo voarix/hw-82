@@ -45,7 +45,6 @@ export interface TrackMutation {
   name: string;
   album: string;
   duration: string;
-  number: number;
   youtubeLink?: string;
 }
 

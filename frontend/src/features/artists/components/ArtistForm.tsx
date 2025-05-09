@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Grid from "@mui/material/Grid2";
-import { Button, CircularProgress, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { ArtistMutation, ValidationError, GlobalError } from "../../../types";
 import { artistSchema } from "../../../zodSchemas/artistSchema.ts";
 import FileInput from "../../../components/UI/FileInput.tsx";
@@ -53,9 +53,21 @@ const ArtistForm: React.FC<Props> = ({ onSubmitArtist, loading, error }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Box
+      component="form"
+      noValidate
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{
+        mt: 3,
+        p: 3,
+        boxShadow: 3,
+        maxWidth: 600,
+        mx: "auto",
+        borderRadius: 1,
+      }}
+    >
       <Grid container spacing={2} direction="column" alignItems="center">
-        <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+        <Grid size={{ sm: 12 }}>
           <TextField
             style={{ width: "100%" }}
             id="name"
@@ -66,7 +78,7 @@ const ArtistForm: React.FC<Props> = ({ onSubmitArtist, loading, error }) => {
           />
         </Grid>
 
-        <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+        <Grid size={{ sm: 12 }}>
           <TextField
             style={{ width: "100%" }}
             multiline
@@ -79,7 +91,7 @@ const ArtistForm: React.FC<Props> = ({ onSubmitArtist, loading, error }) => {
           />
         </Grid>
 
-        <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+        <Grid size={{ sm: 12 }}>
           <FileInput
             name="image"
             label="Artist Image"
@@ -89,7 +101,7 @@ const ArtistForm: React.FC<Props> = ({ onSubmitArtist, loading, error }) => {
           />
         </Grid>
 
-        <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+        <Grid size={{ sm: 12 }}>
           <Button
             disabled={loading}
             style={{ width: "100%" }}
@@ -101,7 +113,7 @@ const ArtistForm: React.FC<Props> = ({ onSubmitArtist, loading, error }) => {
           </Button>
         </Grid>
       </Grid>
-    </form>
+    </Box>
   );
 };
 

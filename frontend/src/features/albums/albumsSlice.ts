@@ -4,6 +4,7 @@ import {
   createAlbum,
   fetchAlbumById,
   fetchAlbumsByArtist,
+  fetchAllAlbums,
 } from "./albumsThunks.ts";
 import { RootState } from "../../app/store.ts";
 
@@ -46,6 +47,19 @@ const albumsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchAllAlbums.pending, (state) => {
+        state.fetchLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAllAlbums.fulfilled, (state, { payload }) => {
+        state.fetchLoading = false;
+        state.items = payload;
+      })
+      .addCase(fetchAllAlbums.rejected, (state, { payload: error }) => {
+        state.fetchLoading = false;
+        state.error = error || null;
+      })
+
       .addCase(fetchAlbumsByArtist.pending, (state) => {
         state.fetchLoading = true;
         state.error = null;

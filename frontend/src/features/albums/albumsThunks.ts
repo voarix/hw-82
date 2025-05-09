@@ -9,6 +9,26 @@ import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
 import { RootState } from "../../app/store.ts";
 
+export const fetchAllAlbums = createAsyncThunk<
+  IAlbum[],
+  string,
+  { rejectValue: ValidationError }
+>("artists/fetchAllAlbums", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.get<IAlbum[]>("/albums");
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data);
+    }
+    throw error;
+  }
+});
+
 export const fetchAlbumsByArtist = createAsyncThunk<
   IAlbum[],
   string,

@@ -15,6 +15,7 @@ import { useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/usersSlice.ts";
 import NewArtist from "./features/artists/NewArtist.tsx";
 import NewAlbum from "./features/albums/NewAlbum.tsx";
+import NewTrack from "./features/tracks/NewTrack.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -50,6 +51,15 @@ const App = () => {
               element={
                 <ProtectedRoute isAllowed={Boolean(user)}>
                   <NewAlbum />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/add-track"
+              element={
+                <ProtectedRoute isAllowed={Boolean(user)}>
+                  <NewTrack />
                 </ProtectedRoute>
               }
             />

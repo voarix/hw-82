@@ -37,14 +37,23 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   return (
     <>
       <Link
+        to="/add-track"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          marginLeft: "6px",
+          fontWeight: 500,
+        }}
+      >
+        New Track
+      </Link>
+      <Link
         to="/add-artist"
         style={{
           color: "white",
           textDecoration: "none",
-          marginLeft: "16px",
+          marginLeft: "6px",
           fontWeight: 500,
-          padding: "6px 8px",
-          borderRadius: "4px",
         }}
       >
         New Artist
@@ -54,10 +63,8 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         style={{
           color: "white",
           textDecoration: "none",
-          marginLeft: "16px",
+          marginLeft: "6px",
           fontWeight: 500,
-          padding: "6px 8px",
-          borderRadius: "4px",
         }}
       >
         New Album

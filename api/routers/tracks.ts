@@ -40,15 +40,18 @@ tracksRouter.get("/", async (req, res, next) => {
   }
 });
 
-tracksRouter.post("/", auth ,async (req, res, next) => {
+tracksRouter.post("/", auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
+
+    const trackLast = await Track.findOne({album: req.body.album}).sort({number: -1}).select("number");
+    const trackNumber = trackLast ? trackLast.number + 1 : 1;
 
     const newTrack: TrackMutation = {
       name: req.body.name,
       album: req.body.album,
       duration: req.body.duration,
-      number: req.body.number,
+      number: trackNumber,
       youtubeLink: req.body.youtubeLink,
       user: String(user._id),
     };

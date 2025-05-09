@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
-import { Button, MenuItem, TextField } from "@mui/material";
-import { useEffect } from "react";
+import { Box, Button, MenuItem, TextField } from "@mui/material";
+import React, { useEffect } from "react";
 import {
   selectArtists,
   selectFetchLoading,
@@ -59,10 +59,23 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
 
   return (
     artists.length > 0 && (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        component="form"
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          mt: 3,
+          p: 3,
+          boxShadow: 3,
+          maxWidth: 600,
+          mx: "auto",
+          borderRadius: 1,
+        }}
+      >
         <Grid container spacing={2} direction="column" alignItems="center">
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <TextField
+              fullWidth
               select
               disabled={artistsLoading || loading}
               style={{ width: "100%" }}
@@ -84,7 +97,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             </TextField>
           </Grid>
 
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               style={{ width: "100%" }}
               id="name"
@@ -95,7 +108,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             />
           </Grid>
 
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               style={{ width: "100%" }}
               type={"number"}
@@ -107,7 +120,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             />
           </Grid>
 
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <TextField
               style={{ width: "100%" }}
               multiline
@@ -120,7 +133,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             />
           </Grid>
 
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <FileInput
               name="image"
               label="Image"
@@ -130,7 +143,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             />
           </Grid>
 
-          <Grid size={{ sm: 12, md: 6, lg: 6 }}>
+          <Grid size={{ sm: 12 }}>
             <Button
               style={{ width: "100%" }}
               type="submit"
@@ -142,7 +155,7 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
             </Button>
           </Grid>
         </Grid>
-      </form>
+      </Box>
     )
   );
 };
