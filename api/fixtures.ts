@@ -230,6 +230,49 @@ const run = async () => {
     }
   );
 
+  const artist3 = await Artist.create({
+    name: "False Artist",
+    image: "default.jpg",
+    info: "Shhh... it's a secret",
+    user: john._id,
+    isPublished: false,
+  });
+
+  const album5 = await Album.create({
+    name: "False Album",
+    artist: artist3._id,
+    date: 2025,
+    image: "default.jpg",
+    user: john._id,
+    isPublished: false,
+  });
+
+  await Track.create(
+    {
+      name: "False Track 1",
+      album: album5._id,
+      number: 1,
+      duration: "3:30",
+      user: john._id,
+      isPublished: false,
+    },
+    {
+      name: "False Track 2",
+      album: album5._id,
+      number: 2,
+      duration: "4:20",
+      user: john._id,
+      isPublished: false,
+    },
+    {
+      name: "False Track 3",
+      album: album5._id,
+      number: 3,
+      duration: "3:45",
+      user: john._id,
+      isPublished: false,
+    });
+
   await db.close();
 };
 
