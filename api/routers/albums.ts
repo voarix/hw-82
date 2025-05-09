@@ -56,4 +56,31 @@ albumsRouter.post("/", auth ,albumImage.single("image"), async (req, res, next) 
   }
 });
 
+albumsRouter.delete("/:id", auth, albumImage.single("image"), async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = (req as RequestWithUser).user;
+
+    const album = await Album.findById(id);
+    if (!album) {
+      res.status(404).send({error: "Album not found"});
+      return;
+    }
+
+    if (String(album.user) === String(user._id) && !album.isPublished) {
+      await Album.findByIdAndDelete(id);
+      res.send({message: "Album deleted successfully"});
+      return;
+    }
+    res.status(403).send({error: "You must delete your own album"});
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send({error: "Invalid id"});
+      return;
+    }
+
+    next(error);
+  }
+});
+
 export default albumsRouter;

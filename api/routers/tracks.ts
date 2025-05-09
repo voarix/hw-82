@@ -65,4 +65,31 @@ tracksRouter.post("/", auth ,async (req, res, next) => {
   }
 });
 
+tracksRouter.delete("/:id", auth, async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = (req as RequestWithUser).user;
+
+    const track = await Track.findById(id);
+    if (!track) {
+      res.status(404).send({error: "Track not found"});
+      return;
+    }
+
+    if (String(track.user) === String(user._id) && !track.isPublished) {
+      await Track.findByIdAndDelete(id);
+      res.send({message: "Track deleted successfully"});
+      return;
+    }
+    res.status(403).send({error: "You must delete your own track"});
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send({error: "Invalid id"});
+      return;
+    }
+
+    next(error);
+  }
+});
+
 export default tracksRouter;
