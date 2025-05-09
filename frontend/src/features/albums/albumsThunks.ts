@@ -1,7 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IAlbum, ValidationError } from "../../types";
+import {
+  AlbumMutation,
+  GlobalError,
+  IAlbum,
+  ValidationError,
+} from "../../types";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
+import { RootState } from "../../app/store.ts";
 
 export const fetchAlbumsByArtist = createAsyncThunk<
   IAlbum[],
@@ -38,6 +44,45 @@ export const fetchAlbumById = createAsyncThunk<
       error.response.status === 400
     ) {
       return rejectWithValue(error.response.data as ValidationError);
+    }
+    throw error;
+  }
+});
+
+export const createAlbum = createAsyncThunk<
+  IAlbum,
+  AlbumMutation,
+  { rejectValue: ValidationError | GlobalError; state: RootState }
+>("albums/createAlbum", async (albumToAdd, { rejectWithValue, getState }) => {
+  try {
+    const token = getState().users.user?.token;
+
+    const formData = new FormData();
+    const keys = Object.keys(albumToAdd) as (keyof AlbumMutation)[];
+
+    keys.forEach((key) => {
+      const value = albumToAdd[key];
+      if (value !== null) {
+        formData.append(key, value as string | Blob);
+      }
+    });
+
+    const response = await axiosApi.post<IAlbum>("/albums", formData, {
+      headers: {
+        Authorization: token,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      if (
+        isAxiosError(error) &&
+        error.response &&
+        error.response.status === 400
+      ) {
+        return rejectWithValue(error.response.data);
+      }
     }
     throw error;
   }

@@ -49,6 +49,19 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       >
         New Artist
       </Link>
+      <Link
+        to="/add-album"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          marginLeft: "16px",
+          fontWeight: 500,
+          padding: "6px 8px",
+          borderRadius: "4px",
+        }}
+      >
+        New Album
+      </Link>
       <Button onClick={handeClick} color="inherit">
         Hello, {user.username}
       </Button>

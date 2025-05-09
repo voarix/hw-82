@@ -24,8 +24,24 @@ export interface IAlbum {
   image: string | null;
 }
 
+export interface AlbumMutation {
+  name: string;
+  artist: string;
+  date: number | string;
+  info?: string;
+  image?: File | null;
+}
+
 export interface ITrack {
   _id: string;
+  name: string;
+  album: string;
+  duration: string;
+  number: number;
+  youtubeLink?: string;
+}
+
+export interface TrackMutation {
   name: string;
   album: string;
   duration: string;
