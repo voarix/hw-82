@@ -25,4 +25,33 @@ artistsAdminRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
+artistsAdminRouter.patch("/:id/togglePublished", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      res.status(400).send({error: "Artist id must be in req params"});
+      return;
+    }
+
+    const artist = await Artist.findById(id);
+    if (!artist) {
+      res.status(404).send({error: "Artist not found"});
+      return;
+    }
+
+    const newArtist = !artist.isPublished;
+    const updateArtist = await Artist.findByIdAndUpdate(id, {isPublished: newArtist}, {
+      new: true,
+      runValidators: true
+    });
+    res.send(updateArtist);
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send({error: "Invalid id "});
+      return;
+    }
+    next(error);
+  }
+});
+
 export default artistsAdminRouter;

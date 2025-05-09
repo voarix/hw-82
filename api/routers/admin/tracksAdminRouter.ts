@@ -25,4 +25,34 @@ tracksAdminRouter.delete("/:id", async (req, res, next) => {
   }
 });
 
+tracksAdminRouter.patch("/:id/togglePublished", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      res.status(400).send({error: "Track id must be in req params"});
+      return;
+    }
+
+    const track = await Track.findById(id);
+    if (!track) {
+      res.status(404).send({error: "Track not found"});
+      return;
+    }
+
+    const newTrack = !track.isPublished;
+    const updateTrack = await Track.findByIdAndUpdate(id, {isPublished: newTrack}, {
+      new: true,
+      runValidators: true
+    });
+    res.send(updateTrack);
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send({error: "Invalid id "});
+      return;
+    }
+    next(error);
+  }
+});
+
+
 export default tracksAdminRouter;
