@@ -10,8 +10,14 @@ import Login from "./features/users/Login.tsx";
 import { ToastContainer } from "react-toastify";
 import AppToolbar from "./components/UI/AppToolbar/AppToolbar.tsx";
 import TrackHistory from "./features/trackHistory/TrackHistory.tsx";
+import ProtectedRoute from "./components/UI/ProtectedRoute.tsx";
+import { useAppSelector } from "./app/hooks.ts";
+import { selectUser } from "./features/users/usersSlice.ts";
+import NewArtist from "./features/artists/NewArtist.tsx";
 
 const App = () => {
+  const user = useAppSelector(selectUser);
+
   return (
     <>
       <CssBaseline />
@@ -28,6 +34,16 @@ const App = () => {
             <Route path="/track-history" element={<TrackHistory />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+
+            <Route
+              path="/add-artist"
+              element={
+                <ProtectedRoute isAllowed={Boolean(user)}>
+                  <NewArtist />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="*"
               element={<Typography variant="h4">Not found page</Typography>}

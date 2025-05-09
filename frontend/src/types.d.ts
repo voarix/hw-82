@@ -1,8 +1,16 @@
 export interface IArtist {
   _id: string;
   name: string;
-  image: string | null;
+  image?: string | null;
   info?: string | undefined;
+  isPublished: boolean;
+  user: string;
+}
+
+export interface ArtistMutation {
+  name: string;
+  info?: string;
+  image?: File | null;
 }
 
 export interface IAlbum {

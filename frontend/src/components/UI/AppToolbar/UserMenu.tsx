@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../../app/hooks.ts";
 import { logout } from "../../../features/users/usersSlice.ts";
 import { persistor } from "../../../app/store.ts";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 interface Props {
   user: User;
@@ -35,6 +36,19 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   return (
     <>
+      <Link
+        to="/add-artist"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          marginLeft: "16px",
+          fontWeight: 500,
+          padding: "6px 8px",
+          borderRadius: "4px",
+        }}
+      >
+        New Artist
+      </Link>
       <Button onClick={handeClick} color="inherit">
         Hello, {user.username}
       </Button>

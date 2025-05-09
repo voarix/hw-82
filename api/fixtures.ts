@@ -44,12 +44,14 @@ const run = async () => {
       image: "fixtures/Eminem.jpg",
       info: "aklsd",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Timberlake",
       image: "fixtures/Justin.jpg",
       info: "info2lkjl2",
       user: jane._id,
+      isPublished: true,
     }
   );
 
@@ -60,6 +62,7 @@ const run = async () => {
       date: 2022,
       image: "fixtures/album1.jpg",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Album 2",
@@ -67,6 +70,7 @@ const run = async () => {
       date: 2023,
       image: "fixtures/album2.jpg",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Album 3",
@@ -74,6 +78,7 @@ const run = async () => {
       date: 2021,
       image: "fixtures/album3.jpg",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Album 4",
@@ -81,6 +86,7 @@ const run = async () => {
       date: 2024,
       image: "fixtures/album4.jpg",
       user: jane._id,
+      isPublished: true,
     }
   );
 
@@ -91,6 +97,7 @@ const run = async () => {
       number: 1,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 2",
@@ -98,6 +105,7 @@ const run = async () => {
       number: 2,
       duration: "4:15",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 3",
@@ -105,6 +113,7 @@ const run = async () => {
       number: 3,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 4",
@@ -112,6 +121,7 @@ const run = async () => {
       number: 4,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 5",
@@ -119,6 +129,7 @@ const run = async () => {
       number: 5,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
 
     {
@@ -127,6 +138,7 @@ const run = async () => {
       number: 1,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 7",
@@ -134,6 +146,7 @@ const run = async () => {
       number: 2,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 8",
@@ -141,6 +154,7 @@ const run = async () => {
       number: 3,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 9",
@@ -148,6 +162,7 @@ const run = async () => {
       number: 4,
       duration: "3:55",
       user: john._id,
+      isPublished: true,
     },
     {
       name: "Track 10",
@@ -155,6 +170,7 @@ const run = async () => {
       number: 5,
       duration: "4:00",
       user: john._id,
+      isPublished: true,
     },
 
     {
@@ -163,6 +179,7 @@ const run = async () => {
       number: 1,
       duration: "3:50",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 12",
@@ -170,6 +187,7 @@ const run = async () => {
       number: 2,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 13",
@@ -177,6 +195,7 @@ const run = async () => {
       number: 3,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 14",
@@ -184,6 +203,7 @@ const run = async () => {
       number: 4,
       duration: "3:55",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 15",
@@ -191,6 +211,7 @@ const run = async () => {
       number: 5,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     },
 
     {
@@ -199,6 +220,7 @@ const run = async () => {
       number: 1,
       duration: "3:30",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 17",
@@ -206,6 +228,7 @@ const run = async () => {
       number: 2,
       duration: "4:15",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 18",
@@ -213,6 +236,7 @@ const run = async () => {
       number: 3,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 19",
@@ -220,6 +244,7 @@ const run = async () => {
       number: 4,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     },
     {
       name: "Track 20",
@@ -227,6 +252,7 @@ const run = async () => {
       number: 5,
       duration: "4:00",
       user: jane._id,
+      isPublished: true,
     }
   );
 
@@ -251,7 +277,7 @@ const run = async () => {
     {
       name: "False Track 1",
       album: album5._id,
-      number: 1,
+      number: 34,
       duration: "3:30",
       user: john._id,
       isPublished: false,
@@ -259,7 +285,7 @@ const run = async () => {
     {
       name: "False Track 2",
       album: album5._id,
-      number: 2,
+      number: 99,
       duration: "4:20",
       user: john._id,
       isPublished: false,
@@ -267,7 +293,7 @@ const run = async () => {
     {
       name: "False Track 3",
       album: album5._id,
-      number: 3,
+      number: 116,
       duration: "3:45",
       user: john._id,
       isPublished: false,

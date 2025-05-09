@@ -33,6 +33,7 @@ export const register = createAsyncThunk<
     ) {
       return rejectWithValue(error.response.data);
     }
+
     throw error;
   }
 });
@@ -56,6 +57,11 @@ export const login = createAsyncThunk<
     ) {
       return rejectWithValue(error.response.data);
     }
+
     throw error;
   }
+});
+
+export const logout = createAsyncThunk<void, void>("users/logout", async () => {
+  await axiosApi.delete("users/sessions", { withCredentials: true });
 });
