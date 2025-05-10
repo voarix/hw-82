@@ -1,18 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { isAxiosError } from "axios";
 import axiosApi from "../../../axiosApi";
-import { IArtist, ValidationError } from "../../../types";
+import { IAlbum, ValidationError } from "../../../types";
 import { RootState } from "../../../app/store.ts";
 
-export const fetchAdminAllArtists = createAsyncThunk<
-  IArtist[],
+export const fetchAdminAllAlbums = createAsyncThunk<
+  IAlbum[],
   void,
   { rejectValue: ValidationError; state: RootState }
->("admin/fetchAdminAllArtists", async (_, { rejectWithValue, getState }) => {
+>("admin/fetchAdminAllAlbums", async (_, { rejectWithValue, getState }) => {
   try {
     const token = getState().users.user?.token;
 
-    const response = await axiosApi.get<IArtist[]>("/admin/artists", {
+    const response = await axiosApi.get<IAlbum[]>("/admin/albums", {
       headers: { Authorization: token },
     });
     return response.data;
@@ -28,46 +28,43 @@ export const fetchAdminAllArtists = createAsyncThunk<
   }
 });
 
-export const deleteAdminArtist = createAsyncThunk<
+export const deleteAdminAlbum = createAsyncThunk<
   void,
   string,
   { rejectValue: ValidationError; state: RootState }
->(
-  "admin/deleteAdminArtist",
-  async (artistId, { rejectWithValue, getState }) => {
-    try {
-      const token = getState().users.user?.token;
+>("admin/deleteAdminAlbum", async (albumId, { rejectWithValue, getState }) => {
+  try {
+    const token = getState().users.user?.token;
 
-      await axiosApi.delete(`/admin/artists/${artistId}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-    } catch (error) {
-      if (
-        isAxiosError(error) &&
-        error.response &&
-        error.response.status === 400
-      ) {
-        return rejectWithValue(error.response.data);
-      }
-      throw error;
+    await axiosApi.delete(`/admin/albums/${albumId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data);
     }
-  },
-);
+    throw error;
+  }
+});
 
-export const editAdminPublishArtist = createAsyncThunk<
-  IArtist,
+export const editAdminPublishAlbum = createAsyncThunk<
+  IAlbum,
   string,
   { rejectValue: ValidationError; state: RootState }
 >(
-  "admin/editAdminPublishArtist",
-  async (artistId, { rejectWithValue, getState }) => {
+  "admin/editAdminPublishAlbum",
+  async (albumId, { rejectWithValue, getState }) => {
     try {
       const token = getState().users.user?.token;
 
-      const response = await axiosApi.patch<IArtist>(
-        `/admin/artists/${artistId}/togglePublished`,
+      const response = await axiosApi.patch<IAlbum>(
+        `/admin/albums/${albumId}/togglePublished`,
         {},
         {
           headers: {

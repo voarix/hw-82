@@ -6,7 +6,7 @@ const albumsAdminRouter = express.Router();
 
 albumsAdminRouter.get("/", async (_req, res, next) => {
   try {
-    const albums = await Album.find();
+    const albums = await Album.find().populate("artist", "name");
     res.send(albums);
   } catch (error) {
     if (error instanceof Error.CastError) {

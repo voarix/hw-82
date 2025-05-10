@@ -18,6 +18,7 @@ import NewAlbum from "./features/albums/NewAlbum.tsx";
 import NewTrack from "./features/tracks/NewTrack.tsx";
 import AdminLayout from "./features/admin/AdminLayout.tsx";
 import AdminArtistsList from "./features/admin/artists/AdminArtistsList.tsx";
+import AdminAlbumsList from "./features/admin/albums/AdminAlbumsList.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -76,6 +77,7 @@ const App = () => {
             >
               <Route path="" element={""} />
               <Route path="artists" element={<AdminArtistsList />} />
+              <Route path="albums" element={<AdminAlbumsList />} />
             </Route>
 
             <Route
