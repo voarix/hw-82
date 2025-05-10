@@ -36,7 +36,28 @@ export interface AlbumMutation {
 export interface ITrack {
   _id: string;
   name: string;
-  album: string;
+  album: {
+    _id: string;
+    name: string;
+    date: string;
+  };
+  duration: string;
+  number: number;
+  youtubeLink?: string;
+  isPublished: boolean;
+}
+
+export interface ITrackAdmin {
+  _id: string;
+  name: string;
+  album: {
+    _id: string;
+    name: string;
+    artist: {
+      _id: string;
+      name: string;
+    };
+  };
   duration: string;
   number: number;
   youtubeLink?: string;

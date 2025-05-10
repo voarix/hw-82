@@ -6,7 +6,14 @@ const tracksAdminRouter = express.Router();
 
 tracksAdminRouter.get("/", async (_req, res, next) => {
   try {
-    const tracks = await Track.find();
+    const tracks = await Track.find().populate({
+      path: "album",
+      select: "name artist",
+      populate: {
+        path: "artist",
+        select: "name"
+      }
+    });
     res.send(tracks);
   } catch (error) {
     if (error instanceof Error.CastError) {
@@ -57,7 +64,7 @@ tracksAdminRouter.patch("/:id/togglePublished", async (req, res, next) => {
     const updateTrack = await Track.findByIdAndUpdate(id, {isPublished: newTrack}, {
       new: true,
       runValidators: true
-    });
+    }).populate("album", "name date");
     res.send(updateTrack);
   } catch (error) {
     if (error instanceof Error.CastError) {

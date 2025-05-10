@@ -17,6 +17,7 @@ import {
 import { trackHistoryReducer } from "../features/trackHistory/trackHistorySlice.ts";
 import { adminArtistsReducer } from "../features/admin/artists/artistsAdminSlice.ts";
 import { adminAlbumsReducer } from "../features/admin/albums/albumsAdminSlice.ts";
+import { adminTracksReducer } from "../features/admin/tracks/tracksAdminSlice.ts";
 
 const userPersistConfig = {
   key: "store:users",
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   users: persistReducer(userPersistConfig, usersReducer),
   adminArtists: adminArtistsReducer,
   adminAlbums: adminAlbumsReducer,
+  adminTracks: adminTracksReducer,
 });
 
 export const store = configureStore({

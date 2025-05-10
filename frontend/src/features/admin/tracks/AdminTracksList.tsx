@@ -6,51 +6,49 @@ import PublishIcon from "@mui/icons-material/Publish";
 import UnpublishedIcon from "@mui/icons-material/NotInterested";
 import Grid from "@mui/material/Grid2";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { IAlbum } from "../../../types";
+import { ITrackAdmin } from "../../../types";
 import {
-  selectAdminAlbumDeleteLoading,
-  selectAdminAlbums,
-  selectAdminAlbumsFetchLoading,
-  selectAdminAlbumTogglePublishLoading,
-  selectAdminAlbumsFetchError,
-  selectAdminAlbumDeleteError,
-  selectAdminAlbumTogglePublishError,
-} from "./albumsAdminSlice.ts";
+  selectAdminTrackDeleteError,
+  selectAdminTrackDeleteLoading,
+  selectAdminTracks,
+  selectAdminTracksFetchError,
+  selectAdminTracksFetchLoading,
+  selectAdminTrackTogglePublishError,
+  selectAdminTrackTogglePublishLoading,
+} from "./tracksAdminSlice.ts";
 import {
-  deleteAdminAlbum,
-  editAdminPublishAlbum,
-  fetchAdminAllAlbums,
-} from "./albumsAdminThunks.ts";
-import { fetchAdminAllArtists } from "../artists/artistsAdminThunks.ts";
+  deleteAdminTrack,
+  editAdminPublishTrack,
+  fetchAdminAllTracks,
+} from "./tracksAdminThunks.ts";
 
-const AdminAlbumsList = () => {
+const AdminArtistsList = () => {
   const dispatch = useAppDispatch();
-  const albums = useAppSelector(selectAdminAlbums);
-  const loading = useAppSelector(selectAdminAlbumsFetchLoading);
-  const deleteLoading = useAppSelector(selectAdminAlbumDeleteLoading);
-  const publishLoading = useAppSelector(selectAdminAlbumTogglePublishLoading);
-  const error = useAppSelector(selectAdminAlbumsFetchError);
-  const deleteError = useAppSelector(selectAdminAlbumDeleteError);
-  const publishError = useAppSelector(selectAdminAlbumTogglePublishError);
+  const tracks = useAppSelector(selectAdminTracks);
+  const loading = useAppSelector(selectAdminTracksFetchLoading);
+  const deleteLoading = useAppSelector(selectAdminTrackDeleteLoading);
+  const publishLoading = useAppSelector(selectAdminTrackTogglePublishLoading);
+  const error = useAppSelector(selectAdminTracksFetchError);
+  const deleteError = useAppSelector(selectAdminTrackDeleteError);
+  const publishError = useAppSelector(selectAdminTrackTogglePublishError);
 
   useEffect(() => {
-    dispatch(fetchAdminAllAlbums());
-    dispatch(fetchAdminAllArtists());
+    dispatch(fetchAdminAllTracks());
   }, [dispatch]);
 
   const onDelete = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this album?")) {
-      await dispatch(deleteAdminAlbum(id));
-      dispatch(fetchAdminAllAlbums());
+    if (window.confirm("Are you sure you want to delete this track?")) {
+      await dispatch(deleteAdminTrack(id));
+      dispatch(fetchAdminAllTracks());
     }
   };
 
   const onTogglePublish = async (id: string) => {
-    await dispatch(editAdminPublishAlbum(id));
-    dispatch(fetchAdminAllAlbums());
+    await dispatch(editAdminPublishTrack(id));
+    dispatch(fetchAdminAllTracks());
   };
 
-  const columns: GridColDef<IAlbum>[] = [
+  const columns: GridColDef<ITrackAdmin>[] = [
     { field: "_id", headerName: "ID", width: 90 },
     {
       field: "name",
@@ -59,22 +57,18 @@ const AdminAlbumsList = () => {
       editable: false,
     },
     {
-      field: "image",
-      headerName: "Image",
+      field: "album",
+      headerName: "Album",
       width: 150,
       editable: false,
+      renderCell: (params) => params.row.album.name,
     },
     {
       field: "artist",
       headerName: "Artist",
       width: 160,
-      renderCell: (params) => params.row.artist.name,
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      width: 160,
       editable: false,
+      renderCell: (params) => params.row.album.artist.name,
     },
     {
       field: "actions",
@@ -139,14 +133,14 @@ const AdminAlbumsList = () => {
       <Grid>
         <DataGrid
           getRowId={(row) => row._id}
-          rows={albums}
+          rows={tracks}
           columns={columns}
           initialState={{
             pagination: {
               paginationModel: { pageSize: 5 },
             },
           }}
-          pageSizeOptions={[5, 10, 20]}
+          pageSizeOptions={[5, 10, 20, 30, 40]}
           disableRowSelectionOnClick
         />
       </Grid>
@@ -154,4 +148,4 @@ const AdminAlbumsList = () => {
   );
 };
 
-export default AdminAlbumsList;
+export default AdminArtistsList;

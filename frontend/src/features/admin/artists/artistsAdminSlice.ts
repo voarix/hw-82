@@ -35,6 +35,8 @@ export const selectAdminArtists = (state: RootState) =>
   state.adminArtists.items;
 export const selectAdminFetchLoading = (state: RootState) =>
   state.adminArtists.fetchLoading;
+export const selectAdminFetchError = (state: RootState) =>
+  state.adminArtists.fetchError;
 
 export const selectAdminDeleteLoading = (state: RootState) =>
   state.adminArtists.deleteLoading;

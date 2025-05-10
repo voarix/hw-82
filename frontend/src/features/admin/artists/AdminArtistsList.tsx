@@ -1,9 +1,12 @@
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import {
   selectAdminArtists,
+  selectAdminDeleteError,
   selectAdminDeleteLoading,
-  selectAdminTogglePublishLoading,
+  selectAdminFetchError,
   selectAdminFetchLoading,
+  selectAdminTogglePublishError,
+  selectAdminTogglePublishLoading,
 } from "./artistsAdminSlice.ts";
 import { useEffect } from "react";
 import {
@@ -11,7 +14,7 @@ import {
   editAdminPublishArtist,
   fetchAdminAllArtists,
 } from "./artistsAdminThunks.ts";
-import { Box, CircularProgress, IconButton } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import PublishIcon from "@mui/icons-material/Publish";
 import UnpublishedIcon from "@mui/icons-material/NotInterested";
@@ -25,6 +28,9 @@ const AdminArtistsList = () => {
   const loading = useAppSelector(selectAdminFetchLoading);
   const deleteLoading = useAppSelector(selectAdminDeleteLoading);
   const publishLoading = useAppSelector(selectAdminTogglePublishLoading);
+  const error = useAppSelector(selectAdminFetchError);
+  const deleteError = useAppSelector(selectAdminDeleteError);
+  const publishError = useAppSelector(selectAdminTogglePublishError);
 
   useEffect(() => {
     dispatch(fetchAdminAllArtists());
@@ -93,6 +99,30 @@ const AdminArtistsList = () => {
       <Grid container justifyContent="center" sx={{ mt: 2 }}>
         <CircularProgress />
       </Grid>
+    );
+  }
+
+  if (deleteError) {
+    return (
+      <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
+        {"errors" in deleteError ? deleteError.message : deleteError.error}
+      </Typography>
+    );
+  }
+
+  if (publishError) {
+    return (
+      <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
+        {"errors" in publishError ? publishError.message : publishError.error}
+      </Typography>
+    );
+  }
+
+  if (error) {
+    return (
+      <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
+        {"errors" in error ? error.message : "Something went wrong"}
+      </Typography>
     );
   }
 

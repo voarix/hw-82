@@ -34,6 +34,8 @@ const initialState: AlbumsState = {
 export const selectAdminAlbums = (state: RootState) => state.adminAlbums.items;
 export const selectAdminAlbumsFetchLoading = (state: RootState) =>
   state.adminAlbums.fetchLoading;
+export const selectAdminAlbumsFetchError = (state: RootState) =>
+  state.adminAlbums.fetchError;
 
 export const selectAdminAlbumDeleteLoading = (state: RootState) =>
   state.adminAlbums.deleteLoading;
