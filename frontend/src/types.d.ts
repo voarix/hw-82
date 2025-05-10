@@ -22,6 +22,7 @@ export interface IAlbum {
   };
   date: number;
   image: string | null;
+  isPublished: boolean;
 }
 
 export interface AlbumMutation {
@@ -39,6 +40,7 @@ export interface ITrack {
   duration: string;
   number: number;
   youtubeLink?: string;
+  isPublished: boolean;
 }
 
 export interface TrackMutation {
@@ -52,6 +54,7 @@ export interface User {
   _id: string;
   username: string;
   token: string;
+  role: string;
 }
 
 export interface RegisterMutation {

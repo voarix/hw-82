@@ -1,7 +1,11 @@
 import { GlobalError, ITrack, ValidationError } from "../../types";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store.ts";
-import { createTrack, fetchTracksByAlbum } from "./tracksThunks.ts";
+import {
+  createTrack,
+  deleteTrack,
+  fetchTracksByAlbum,
+} from "./tracksThunks.ts";
 
 interface TracksState {
   items: ITrack[];
@@ -10,6 +14,9 @@ interface TracksState {
 
   createLoading: boolean;
   createError: ValidationError | GlobalError | null;
+
+  deleteLoading: boolean;
+  deleteError: GlobalError | null;
 }
 
 export const selectTracks = (state: RootState) => state.tracks.items;
@@ -22,6 +29,11 @@ export const selectTrackCreateLoading = (state: RootState) =>
 export const selectTrackCreateError = (state: RootState) =>
   state.tracks.createError;
 
+export const selectTrackDeleteLoading = (state: RootState) =>
+  state.tracks.deleteLoading;
+export const selectTrackDeleteError = (state: RootState) =>
+  state.tracks.deleteError;
+
 const initialState: TracksState = {
   items: [],
   fetchLoading: false,
@@ -29,6 +41,9 @@ const initialState: TracksState = {
 
   createLoading: false,
   createError: null,
+
+  deleteLoading: false,
+  deleteError: null,
 };
 
 const tracksSlice = createSlice({
@@ -60,6 +75,18 @@ const tracksSlice = createSlice({
       .addCase(createTrack.rejected, (state, { payload: error }) => {
         state.createLoading = false;
         state.createError = error || null;
+      })
+
+      .addCase(deleteTrack.pending, (state) => {
+        state.deleteLoading = true;
+        state.deleteError = null;
+      })
+      .addCase(deleteTrack.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteTrack.rejected, (state, { payload: error }) => {
+        state.deleteLoading = false;
+        state.deleteError = error || null;
       });
   },
 });

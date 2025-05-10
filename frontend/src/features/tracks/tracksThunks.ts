@@ -65,3 +65,24 @@ export const createTrack = createAsyncThunk<
     throw error;
   }
 });
+
+export const deleteTrack = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: GlobalError; state: RootState }
+>("tracks/deleteTrack", async (trackId, { rejectWithValue, getState }) => {
+  try {
+    const token = getState().users.user?.token;
+
+    await axiosApi.delete(`/tracks/${trackId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      return rejectWithValue(error.response.data);
+    }
+    throw error;
+  }
+});

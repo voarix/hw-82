@@ -1,6 +1,10 @@
 import { GlobalError, IArtist, ValidationError } from "../../types";
 import { createSlice } from "@reduxjs/toolkit";
-import { createArtist, fetchAllArtists } from "./artistsThunks.ts";
+import {
+  createArtist,
+  deleteArtist,
+  fetchAllArtists,
+} from "./artistsThunks.ts";
 import { RootState } from "../../app/store.ts";
 
 interface ArtistsState {
@@ -10,17 +14,26 @@ interface ArtistsState {
 
   createLoading: boolean;
   createError: GlobalError | null | ValidationError;
+
+  deleteLoading: boolean;
+  deleteError: GlobalError | null;
 }
 
 export const selectArtists = (state: RootState) => state.artists.items;
 export const selectFetchLoading = (state: RootState) =>
   state.artists.fetchLoading;
-export const selectError = (state: RootState) => state.artists.error;
+export const selectArtistsFetchError = (state: RootState) =>
+  state.artists.error;
 
-export const selectUserCreateLoading = (state: RootState) =>
+export const selectCreateLoading = (state: RootState) =>
   state.artists.createLoading;
-export const selectUserCreateError = (state: RootState) =>
+export const selectCreateError = (state: RootState) =>
   state.artists.createError;
+
+export const selectDeleteLoading = (state: RootState) =>
+  state.artists.deleteLoading;
+export const selectDeleteError = (state: RootState) =>
+  state.artists.deleteError;
 
 const initialState: ArtistsState = {
   items: [],
@@ -29,6 +42,9 @@ const initialState: ArtistsState = {
 
   createLoading: false,
   createError: null,
+
+  deleteLoading: false,
+  deleteError: null,
 };
 
 const artistsSlice = createSlice({
@@ -60,6 +76,18 @@ const artistsSlice = createSlice({
       .addCase(createArtist.rejected, (state, { payload: error }) => {
         state.createLoading = false;
         state.createError = error || null;
+      })
+
+      .addCase(deleteArtist.pending, (state) => {
+        state.deleteLoading = true;
+        state.deleteError = null;
+      })
+      .addCase(deleteArtist.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteArtist.rejected, (state, { payload: error }) => {
+        state.deleteLoading = false;
+        state.deleteError = error || null;
       });
   },
 });

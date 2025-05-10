@@ -11,15 +11,18 @@ import { RootState } from "../../app/store.ts";
 
 export const fetchAllAlbums = createAsyncThunk<
   IAlbum[],
-  string,
+  string | undefined,
   { rejectValue: ValidationError; state: RootState }
->("artists/fetchAllAlbums", async (_, { rejectWithValue, getState }) => {
+>("artists/fetchAllAlbums", async (artistId, { rejectWithValue, getState }) => {
   try {
     const token = getState().users.user?.token;
 
-    const response = await axiosApi.get<IAlbum[]>("/albums", {
-      headers: { Authorization: token },
-    });
+    const response = await axiosApi.get<IAlbum[]>(
+      artistId ? `/albums?artist=${artistId}` : "/albums",
+      {
+        headers: { Authorization: token },
+      },
+    );
     return response.data;
   } catch (error) {
     if (
@@ -32,36 +35,6 @@ export const fetchAllAlbums = createAsyncThunk<
     throw error;
   }
 });
-
-export const fetchAlbumsByArtist = createAsyncThunk<
-  IAlbum[],
-  string,
-  { rejectValue: ValidationError; state: RootState }
->(
-  "artists/fetchAlbumsByArtist",
-  async (artistId, { rejectWithValue, getState }) => {
-    try {
-      const token = getState().users.user?.token;
-
-      const response = await axiosApi.get<IAlbum[]>(
-        `/albums?artist=${artistId}`,
-        {
-          headers: { Authorization: token },
-        },
-      );
-      return response.data;
-    } catch (error) {
-      if (
-        isAxiosError(error) &&
-        error.response &&
-        error.response.status === 400
-      ) {
-        return rejectWithValue(error.response.data as ValidationError);
-      }
-      throw error;
-    }
-  },
-);
 
 export const fetchAlbumById = createAsyncThunk<
   IAlbum,
@@ -117,6 +90,27 @@ export const createAlbum = createAsyncThunk<
       ) {
         return rejectWithValue(error.response.data);
       }
+    }
+    throw error;
+  }
+});
+
+export const deleteAlbum = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: GlobalError; state: RootState }
+>("albums/deleteAlbum", async (albumId, { rejectWithValue, getState }) => {
+  try {
+    const token = getState().users.user?.token;
+
+    await axiosApi.delete<IAlbum>(`/albums/${albumId}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      return rejectWithValue(error.response.data);
     }
     throw error;
   }

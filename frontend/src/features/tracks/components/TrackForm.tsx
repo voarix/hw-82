@@ -7,12 +7,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { trackSchema } from "../../../zodSchemas/trackSchema.ts";
 import { useForm } from "react-hook-form";
 import { selectAlbums, selectAlbumsLoading } from "../../albums/albumsSlice.ts";
-import { fetchAlbumsByArtist } from "../../albums/albumsThunks.ts";
+import { fetchAllAlbums } from "../../albums/albumsThunks.ts";
 import {
   selectArtists,
+  selectArtistsFetchError,
   selectFetchLoading,
 } from "../../artists/artistsSlice.ts";
 import { fetchAllArtists } from "../../artists/artistsThunks.ts";
+import Typography from "@mui/material/Typography";
 
 interface Props {
   onSubmitTrack: (track: TrackMutation) => void;
@@ -23,6 +25,7 @@ const TrackForm: React.FC<Props> = ({ onSubmitTrack, loading }) => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const artistsLoading = useAppSelector(selectFetchLoading);
+  const artistsError = useAppSelector(selectArtistsFetchError);
   const albums = useAppSelector(selectAlbums);
   const albumsLoading = useAppSelector(selectAlbumsLoading);
   const [oneArtist, setOneArtist] = useState("");
@@ -49,7 +52,7 @@ const TrackForm: React.FC<Props> = ({ onSubmitTrack, loading }) => {
 
   useEffect(() => {
     if (oneArtist) {
-      dispatch(fetchAlbumsByArtist(oneArtist));
+      dispatch(fetchAllAlbums(oneArtist));
       setValue("album", "");
     }
   }, [dispatch, oneArtist, setValue]);
@@ -61,6 +64,14 @@ const TrackForm: React.FC<Props> = ({ onSubmitTrack, loading }) => {
   const onArtistChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setOneArtist(e.target.value);
   };
+
+  if (artistsError) {
+    return (
+      <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
+        {"errors" in artistsError ? artistsError.message : "Error"}
+      </Typography>
+    );
+  }
 
   return (
     albums && (

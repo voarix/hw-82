@@ -3,6 +3,7 @@ import { Box, Button, MenuItem, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import {
   selectArtists,
+  selectArtistsFetchError,
   selectFetchLoading,
 } from "../../artists/artistsSlice.ts";
 import { fetchAllArtists } from "../../artists/artistsThunks.ts";
@@ -12,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { albumSchema } from "../../../zodSchemas/albumSchema.ts";
 import { useForm } from "react-hook-form";
 import FileInput from "../../../components/UI/FileInput.tsx";
+import Typography from "@mui/material/Typography";
 
 interface Props {
   onSubmitAlbum: (album: AlbumMutation) => void;
@@ -22,6 +24,8 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
   const dispatch = useAppDispatch();
   const artists = useAppSelector(selectArtists);
   const artistsLoading = useAppSelector(selectFetchLoading);
+  const artistsError = useAppSelector(selectArtistsFetchError);
+
   const {
     register,
     handleSubmit,
@@ -56,6 +60,14 @@ const AlbumForm: React.FC<Props> = ({ onSubmitAlbum, loading }) => {
       setValue("image", files[0]);
     }
   };
+
+  if (artistsError) {
+    return (
+      <Typography variant="h6" align="center" sx={{ width: "100%", mt: 5 }}>
+        {"errors" in artistsError ? artistsError.message : "Error"}
+      </Typography>
+    );
+  }
 
   return (
     artists.length > 0 && (

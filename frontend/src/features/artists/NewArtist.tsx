@@ -4,18 +4,15 @@ import { ArtistMutation } from "../../types";
 import { Box, CircularProgress } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ArtistForm from "./components/ArtistForm.tsx";
-import {
-  selectUserCreateError,
-  selectUserCreateLoading,
-} from "./artistsSlice.ts";
+import { selectCreateError, selectCreateLoading } from "./artistsSlice.ts";
 import { createArtist } from "./artistsThunks.ts";
 import { toast } from "react-toastify";
 
 const NewArtist = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const createLoading = useAppSelector(selectUserCreateLoading);
-  const createError = useAppSelector(selectUserCreateError);
+  const createLoading = useAppSelector(selectCreateLoading);
+  const createError = useAppSelector(selectCreateError);
 
   const onSubmitArtist = async (artistData: ArtistMutation) => {
     try {

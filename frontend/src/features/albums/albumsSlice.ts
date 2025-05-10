@@ -2,8 +2,8 @@ import { GlobalError, IAlbum, ValidationError } from "../../types";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createAlbum,
+  deleteAlbum,
   fetchAlbumById,
-  fetchAlbumsByArtist,
   fetchAllAlbums,
 } from "./albumsThunks.ts";
 import { RootState } from "../../app/store.ts";
@@ -17,6 +17,9 @@ interface AlbumsState {
 
   createLoading: boolean;
   createError: ValidationError | GlobalError | null;
+
+  deleteLoading: boolean;
+  deleteError: GlobalError | null;
 }
 
 export const selectAlbums = (state: RootState) => state.albums.items;
@@ -31,14 +34,23 @@ export const selectAlbumCreateLoading = (state: RootState) =>
 export const selectAlbumCreateError = (state: RootState) =>
   state.albums.createError;
 
+export const selectAlbumDeleteLoading = (state: RootState) =>
+  state.albums.deleteLoading;
+export const selectAlbumDeleteError = (state: RootState) =>
+  state.albums.deleteError;
+
 const initialState: AlbumsState = {
   items: [],
   album: null,
+
   fetchLoading: false,
   error: null,
 
   createLoading: false,
   createError: null,
+
+  deleteLoading: false,
+  deleteError: null,
 };
 
 const albumsSlice = createSlice({
@@ -56,19 +68,6 @@ const albumsSlice = createSlice({
         state.items = payload;
       })
       .addCase(fetchAllAlbums.rejected, (state, { payload: error }) => {
-        state.fetchLoading = false;
-        state.error = error || null;
-      })
-
-      .addCase(fetchAlbumsByArtist.pending, (state) => {
-        state.fetchLoading = true;
-        state.error = null;
-      })
-      .addCase(fetchAlbumsByArtist.fulfilled, (state, { payload }) => {
-        state.fetchLoading = false;
-        state.items = payload;
-      })
-      .addCase(fetchAlbumsByArtist.rejected, (state, { payload: error }) => {
         state.fetchLoading = false;
         state.error = error || null;
       })
@@ -96,6 +95,18 @@ const albumsSlice = createSlice({
       .addCase(createAlbum.rejected, (state, { payload: error }) => {
         state.createLoading = false;
         state.createError = error || null;
+      })
+
+      .addCase(deleteAlbum.pending, (state) => {
+        state.deleteLoading = true;
+        state.deleteError = null;
+      })
+      .addCase(deleteAlbum.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteAlbum.rejected, (state, { payload: error }) => {
+        state.deleteLoading = false;
+        state.deleteError = error || null;
       });
   },
 });
