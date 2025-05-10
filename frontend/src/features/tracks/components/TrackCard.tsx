@@ -38,7 +38,7 @@ const TrackCard: React.FC<Props> = ({
 
   const onDeleteClick = async () => {
     try {
-      dispatch(deleteTrack(trackId));
+      await dispatch(deleteTrack(trackId));
       if (albumId) await dispatch(fetchTracksByAlbum(albumId));
       toast.success("Artist is deleted successfully");
     } catch (error) {

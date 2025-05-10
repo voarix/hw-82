@@ -4,6 +4,19 @@ import Album from "../../models/Album";
 
 const albumsAdminRouter = express.Router();
 
+albumsAdminRouter.get("/", async (_req, res, next) => {
+  try {
+    const albums = await Album.find();
+    res.send(albums);
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send(error);
+      return;
+    }
+    next(error);
+  }
+});
+
 albumsAdminRouter.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;

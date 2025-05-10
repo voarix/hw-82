@@ -16,6 +16,8 @@ import { selectUser } from "./features/users/usersSlice.ts";
 import NewArtist from "./features/artists/NewArtist.tsx";
 import NewAlbum from "./features/albums/NewAlbum.tsx";
 import NewTrack from "./features/tracks/NewTrack.tsx";
+import AdminLayout from "./features/admin/AdminLayout.tsx";
+import AdminArtistsList from "./features/admin/artists/AdminArtistsList.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -63,6 +65,18 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="admin"
+              element={
+                <ProtectedRoute isAllowed={user && user.role === "admin"}>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="" element={""} />
+              <Route path="artists" element={<AdminArtistsList />} />
+            </Route>
 
             <Route
               path="*"

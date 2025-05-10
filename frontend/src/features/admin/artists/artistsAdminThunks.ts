@@ -7,10 +7,14 @@ import { RootState } from "../../../app/store.ts";
 export const fetchAdminAllArtists = createAsyncThunk<
   IArtist[],
   void,
-  { rejectValue: ValidationError }
->("admin/fetchAdminAllArtists", async (_, { rejectWithValue }) => {
+  { rejectValue: ValidationError; state: RootState }
+>("admin/fetchAdminAllArtists", async (_, { rejectWithValue, getState }) => {
   try {
-    const response = await axiosApi.get<IArtist[]>("/artists");
+    const token = getState().users.user?.token;
+
+    const response = await axiosApi.get<IArtist[]>("/admin/artists", {
+      headers: { Authorization: token },
+    });
     return response.data;
   } catch (error) {
     if (

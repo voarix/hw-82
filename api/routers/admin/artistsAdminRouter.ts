@@ -4,6 +4,20 @@ import Artist from "../../models/Artist";
 
 const artistsAdminRouter = express.Router();
 
+artistsAdminRouter.get("/", async (req, res, next) => {
+  try {
+    const artists = await Artist.find();
+    res.send(artists);
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send(error);
+      return;
+    }
+
+    next(error);
+  }
+});
+
 artistsAdminRouter.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;

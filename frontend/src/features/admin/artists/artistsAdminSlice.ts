@@ -12,10 +12,10 @@ interface ArtistsState {
   fetchLoading: boolean;
   fetchError: ValidationError | null;
 
-  deleteLoading: boolean | string;
+  deleteLoading: boolean;
   deleteError: GlobalError | null | ValidationError;
 
-  editPublishLoading: boolean | string;
+  editPublishLoading: boolean;
   editPublishError: GlobalError | null | ValidationError;
 }
 
@@ -31,19 +31,20 @@ const initialState: ArtistsState = {
   editPublishError: null,
 };
 
-export const selectAdminArtists = (state: RootState) => state.adminArtist.items;
+export const selectAdminArtists = (state: RootState) =>
+  state.adminArtists.items;
 export const selectAdminFetchLoading = (state: RootState) =>
-  state.adminArtist.fetchLoading;
+  state.adminArtists.fetchLoading;
 
 export const selectAdminDeleteLoading = (state: RootState) =>
-  state.adminArtist.deleteLoading;
+  state.adminArtists.deleteLoading;
 export const selectAdminDeleteError = (state: RootState) =>
-  state.adminArtist.deleteError;
+  state.adminArtists.deleteError;
 
 export const selectAdminTogglePublishLoading = (state: RootState) =>
-  state.adminArtist.editPublishLoading;
+  state.adminArtists.editPublishLoading;
 export const selectAdminTogglePublishError = (state: RootState) =>
-  state.adminArtist.editPublishError;
+  state.adminArtists.editPublishError;
 
 const adminArtistsSlice = createSlice({
   name: "adminArtists",

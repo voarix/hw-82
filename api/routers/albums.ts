@@ -64,7 +64,6 @@ albumsRouter.get("/", async (req, res, next) => {
       .populate("artist", "name")
       .sort({date: -1});
 
-
     res.send(albums);
   } catch (e) {
     next(e);

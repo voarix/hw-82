@@ -4,6 +4,20 @@ import { Error } from "mongoose";
 
 const tracksAdminRouter = express.Router();
 
+tracksAdminRouter.get("/", async (_req, res, next) => {
+  try {
+    const tracks = await Track.find();
+    res.send(tracks);
+  } catch (error) {
+    if (error instanceof Error.CastError) {
+      res.status(400).send(error);
+      return;
+    }
+
+    next(error);
+  }
+})
+
 tracksAdminRouter.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;

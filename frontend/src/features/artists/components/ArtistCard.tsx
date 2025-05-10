@@ -24,7 +24,7 @@ const ArtistCard: React.FC<Props> = ({ name, image, id, isPublished }) => {
 
   const onDeleteClick = async () => {
     try {
-      dispatch(deleteArtist(id));
+      await dispatch(deleteArtist(id));
       await dispatch(fetchAllArtists());
       toast.success("Artist is deleted successfully");
     } catch (error) {

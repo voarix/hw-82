@@ -33,7 +33,7 @@ const AlbumCard: React.FC<Props> = ({
 
   const onDeleteClick = async () => {
     try {
-      dispatch(deleteAlbum(id));
+      await dispatch(deleteAlbum(id));
       await dispatch(fetchAllAlbums(artistId));
       toast.success("Album is deleted successfully");
     } catch (error) {

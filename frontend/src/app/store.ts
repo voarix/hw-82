@@ -29,7 +29,7 @@ const rootReducer = combineReducers({
   tracks: tracksReducer,
   trackHistory: trackHistoryReducer,
   users: persistReducer(userPersistConfig, usersReducer),
-  adminArtist: adminArtistsReducer,
+  adminArtists: adminArtistsReducer,
 });
 
 export const store = configureStore({
