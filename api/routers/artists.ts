@@ -4,12 +4,27 @@ import { Error } from "mongoose";
 import { artistImage } from "../middleware/multer";
 import { ArtistMutation } from "../types";
 import auth, { RequestWithUser } from "../middleware/auth";
+import User from "../models/User";
 
 const artistsRouter = express.Router();
 
-artistsRouter.get("/", async (_req, res, next) => {
+artistsRouter.get("/", async (req, res, next) => {
   try {
-    const artists = await Artist.find();
+    const token = req.get("Authorization");
+    let user = null;
+
+    if (token) {
+      user = await User.findOne({token});
+      if (user) {
+        const isPublishedArtists = await Artist.find({isPublished: true});
+        const artists = await Artist.find({user: user._id, isPublished: false});
+        artists.push(...isPublishedArtists);
+        res.send(artists);
+        return;
+      }
+    }
+
+    const artists = await Artist.find({isPublished: true});
     res.send(artists);
   } catch (e) {
     next(e);

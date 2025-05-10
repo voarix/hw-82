@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const albumSchema = z.object({
   artist: z.string().min(1, "Artist is required"),
-  name: z.string().min(5, "Name is required"),
+  name: z.string().min(5, "Name is required, min 5 characters"),
   date: z.string().refine(
     (val) => {
       const year = parseInt(val, 10);
@@ -12,7 +12,7 @@ export const albumSchema = z.object({
     },
     {
       message:
-        "Date album must be bigger than 1910 and less than current year (or current year)",
+        "Date album must be bigger than 1957 and less than current year (or current year)",
     },
   ),
 

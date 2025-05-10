@@ -3,15 +3,16 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import { User } from "../../../types";
 import { useAppDispatch } from "../../../app/hooks.ts";
 import { logout } from "../../../features/users/usersSlice.ts";
-import { persistor } from "../../../app/store.ts";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchAllArtists } from "../../../features/artists/artistsThunks.ts";
 
 interface Props {
   user: User;
 }
 
 const UserMenu: React.FC<Props> = ({ user }) => {
+  const navigate = useNavigate();
   const [userOptionsEl, setUserOptionsEl] = useState<HTMLElement | null>(null);
   const dispatch = useAppDispatch();
 
@@ -26,7 +27,8 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   const handleLogout = async () => {
     try {
       dispatch(logout());
-      await persistor.purge();
+      navigate("/");
+      await dispatch(fetchAllArtists());
       toast.success("Logout is successful");
     } catch (e) {
       toast.error("Logout is failed");

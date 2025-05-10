@@ -12,10 +12,14 @@ import { RootState } from "../../app/store.ts";
 export const fetchAllAlbums = createAsyncThunk<
   IAlbum[],
   string,
-  { rejectValue: ValidationError }
->("artists/fetchAllAlbums", async (_, { rejectWithValue }) => {
+  { rejectValue: ValidationError; state: RootState }
+>("artists/fetchAllAlbums", async (_, { rejectWithValue, getState }) => {
   try {
-    const response = await axiosApi.get<IAlbum[]>("/albums");
+    const token = getState().users.user?.token;
+
+    const response = await axiosApi.get<IAlbum[]>("/albums", {
+      headers: { Authorization: token },
+    });
     return response.data;
   } catch (error) {
     if (
@@ -32,22 +36,32 @@ export const fetchAllAlbums = createAsyncThunk<
 export const fetchAlbumsByArtist = createAsyncThunk<
   IAlbum[],
   string,
-  { rejectValue: ValidationError }
->("artists/fetchAlbumsByArtist", async (artistId, { rejectWithValue }) => {
-  try {
-    const response = await axiosApi.get<IAlbum[]>(`/albums?artist=${artistId}`);
-    return response.data;
-  } catch (error) {
-    if (
-      isAxiosError(error) &&
-      error.response &&
-      error.response.status === 400
-    ) {
-      return rejectWithValue(error.response.data as ValidationError);
+  { rejectValue: ValidationError; state: RootState }
+>(
+  "artists/fetchAlbumsByArtist",
+  async (artistId, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().users.user?.token;
+
+      const response = await axiosApi.get<IAlbum[]>(
+        `/albums?artist=${artistId}`,
+        {
+          headers: { Authorization: token },
+        },
+      );
+      return response.data;
+    } catch (error) {
+      if (
+        isAxiosError(error) &&
+        error.response &&
+        error.response.status === 400
+      ) {
+        return rejectWithValue(error.response.data as ValidationError);
+      }
+      throw error;
     }
-    throw error;
-  }
-});
+  },
+);
 
 export const fetchAlbumById = createAsyncThunk<
   IAlbum,

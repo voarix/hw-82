@@ -39,7 +39,7 @@ const TrackForm: React.FC<Props> = ({ onSubmitTrack, loading }) => {
       album: "",
       name: "",
       duration: "",
-      youtubeLink: undefined,
+      youtubeLink: "",
     },
   });
 

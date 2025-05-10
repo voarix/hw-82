@@ -33,7 +33,7 @@ const TrackSchema = new Schema({
     required: [true, "Album number is required"],
     min: 1,
   },
-  youtube: String,
+  youtubeLink: String,
   isPublished: {
     type: Boolean,
     default: false,

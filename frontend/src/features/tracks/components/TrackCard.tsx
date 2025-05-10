@@ -32,10 +32,17 @@ const TrackCard: React.FC<Props> = ({
     await dispatch(addTrackHistory(trackId));
 
     if (youtubeLink) {
-      const linkEmbed = youtubeLink.replace(
-        "https://www.youtube.com/watch?v=",
-        "https://www.youtube.com/embed/",
-      );
+      let linkEmbed = youtubeLink;
+
+      if (youtubeLink.includes("youtube.com/watch?v=")) {
+        linkEmbed = youtubeLink.replace(
+          "youtube.com/watch?v=",
+          "youtube.com/embed/",
+        );
+      } else if (youtubeLink.includes("youtu.be/")) {
+        linkEmbed = youtubeLink.replace("youtu.be/", "youtube.com/embed/");
+      }
+
       setEmbLink(linkEmbed);
       setModal(true);
     }

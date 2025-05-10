@@ -12,11 +12,15 @@ import { RootState } from "../../app/store.ts";
 export const fetchAllArtists = createAsyncThunk<
   IArtist[],
   void,
-  { rejectValue: ValidationError }
->("artists/fetchAllArtists", async (_, { rejectWithValue }) => {
+  { rejectValue: ValidationError; state: RootState }
+>("artists/fetchAllArtists", async (_, { rejectWithValue, getState }) => {
   try {
-    const response = await axiosApi.get<IArtist[]>("/artists");
-    return response.data.filter((artist) => artist.isPublished);
+    const token = getState().users.user?.token;
+
+    const response = await axiosApi.get<IArtist[]>("/artists", {
+      headers: { Authorization: token },
+    });
+    return response.data;
   } catch (error) {
     if (
       isAxiosError(error) &&

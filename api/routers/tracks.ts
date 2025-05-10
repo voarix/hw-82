@@ -3,6 +3,7 @@ import { Error } from "mongoose";
 import { TrackMutation } from "../types";
 import Track from "../models/Track";
 import auth, { RequestWithUser } from "../middleware/auth";
+import User from "../models/User";
 
 const tracksRouter = express.Router();
 
@@ -10,31 +11,71 @@ tracksRouter.get("/", async (req, res, next) => {
   try {
     const artist_id = req.query.artist as string | undefined;
     const album_id = req.query.album as string | undefined;
+    let user = null;
+
+    const token = req.get("Authorization");
+
+    if (token) {
+      user = await User.findOne({token});
+    }
+
+    if (user) {
+      if (artist_id) {
+        const isPublishedTracks = await Track.find({
+          artist: artist_id,
+          isPublished: true
+        }).populate("artist", "name");
+
+        const tracks = await Track.find({
+          artist: artist_id,
+          user: user._id,
+          isPublished: false
+        }).populate("artist", "name");
+
+        const allTracks = [...isPublishedTracks, ...tracks];
+        allTracks.sort((a, b) => b.number - a.number);
+        res.send(allTracks);
+        return;
+      } else if (album_id) {
+        const isPublishedTracks = await Track.find({
+          album: album_id,
+          isPublished: true
+        }).populate("album", "name date");
+
+        const tracks = await Track.find({
+          album: album_id,
+          user: user._id,
+          isPublished: false
+        }).populate("album", "name date");
+
+
+        const allTracks = [...isPublishedTracks, ...tracks];
+        allTracks.sort((a, b) => b.number - a.number);
+        res.send(allTracks);
+        return;
+      }
+    }
 
     if (album_id) {
-      const tracks = await Track.find({album: album_id})
-        .populate("album", "name date").sort("number");
+      const tracks = await Track.find({album: album_id, isPublished: true})
+        .populate("album", "name date").sort({number: -1});
       res.send(tracks);
       return;
     }
 
     if (artist_id) {
-      const tracks = await Track.find()
+      const tracks = await Track.find({isPublished: true})
         .populate({
           path: "album",
           match: {artist: artist_id},
           select: "name date"
         })
-        .sort("number");
+        .sort({number: -1});
 
       const filteredTracks = tracks.filter(track => track.album !== null);
-
       res.send(filteredTracks);
       return;
     }
-
-    const tracks = await Track.find().populate("album", "name date").sort("number");
-    res.send(tracks);
   } catch (e) {
     next(e);
   }
@@ -52,7 +93,7 @@ tracksRouter.post("/", auth, async (req, res, next) => {
       album: req.body.album,
       duration: req.body.duration,
       number: trackNumber,
-      youtubeLink: req.body.youtubeLink,
+      youtubeLink: req.body.youtubeLink ? req.body.youtubeLink : undefined,
       user: String(user._id),
     };
 

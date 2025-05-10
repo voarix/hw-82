@@ -4,17 +4,67 @@ import { Error } from "mongoose";
 import { AlbumMutation } from "../types";
 import { albumImage } from "../middleware/multer";
 import auth, { RequestWithUser } from "../middleware/auth";
+import User from "../models/User";
 
 const albumsRouter = express.Router();
 
 albumsRouter.get("/", async (req, res, next) => {
   try {
     const artist_id = req.query.artist as string;
-    const filter: { artist?: string } = {};
+    let user = null;
+    const token = req.get("Authorization");
 
-    if (artist_id) filter.artist = artist_id;
+    if (token) {
+      user = await User.findOne({token});
+    }
 
-    const albums = await Album.find(filter).populate("artist", "name").sort({ date: -1 });
+    if (user) {
+      if (artist_id) {
+        const isPublishedAlbums = await Album.find({
+          artist: artist_id,
+          isPublished: true
+        }).populate("artist", "name");
+
+        const userAlbums = await Album.find({
+          artist: artist_id,
+          user: user._id,
+          isPublished: false
+        }).populate("artist", "name");
+
+        const albums = [...userAlbums, ...isPublishedAlbums];
+        albums.sort((a, b) => b.date - a.date);
+        res.send(albums);
+        return;
+      } else {
+        const isPublishedAlbums = await Album.find({
+          isPublished: true
+        }).populate("artist", "name");
+
+        const userAlbums = await Album.find({
+          user: user._id,
+          isPublished: false
+        }).populate("artist", "name");
+
+        const albums = [...userAlbums, ...isPublishedAlbums];
+        albums.sort((a, b) => b.date - a.date);
+        res.send(albums);
+        return
+      }
+    }
+
+    const filter: { artist?: string, isPublished: boolean } = {
+      isPublished: true
+    };
+
+    if (artist_id) {
+      filter.artist = artist_id;
+    }
+
+    const albums = await Album.find(filter)
+      .populate("artist", "name")
+      .sort({date: -1});
+
+
     res.send(albums);
   } catch (e) {
     next(e);
@@ -32,7 +82,7 @@ albumsRouter.get("/:id", async (req, res, next) => {
   }
 });
 
-albumsRouter.post("/", auth ,albumImage.single("image"), async (req, res, next) => {
+albumsRouter.post("/", auth, albumImage.single("image"), async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
