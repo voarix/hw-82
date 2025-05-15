@@ -2,8 +2,60 @@ import express from "express";
 import { Error } from "mongoose";
 import User from "../models/User";
 import auth, { RequestWithUser } from "../middleware/auth";
+import { OAuth2Client } from "google-auth-library";
+import config from "../config";
 
 const usersRouter = express.Router();
+const client = new OAuth2Client(config.google.clientId);
+
+usersRouter.post("/google", async (req, res, next) => {
+  try {
+    if (!req.body.credential) {
+      res.status(400).send({error: "Google login Error!"});
+      return;
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: req.body.credential,
+      audience: config.google.clientId,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      res.status(400).send({error: "Google login Error!"});
+      return;
+    }
+
+    const email = payload["email"];
+    const googleId = payload["sub"];
+    const displayName = payload["name"];
+
+    if (!email) {
+      res.status(400).send({error: "Google login Error!"});
+      return;
+    }
+
+    let user = await User.findOne({googleId: googleId});
+    let genPassword = crypto.randomUUID();
+
+    if (!user) {
+      user = new User({
+        username: email,
+        password: genPassword,
+        confirmPassword: genPassword,
+        displayName,
+        googleId,
+      });
+    }
+
+    user.generateToken();
+    await user.save();
+
+    res.send({user, message: "Login with google successfully."});
+  } catch (error) {
+    next(error);
+  }
+});
 
 usersRouter.post("/", async (req, res, next) => {
   try {

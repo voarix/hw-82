@@ -65,19 +65,19 @@ tracksHistoryRouter.get("/", async (req, res, next) => {
       return;
     }
 
-    const tracks = await TrackHistory.find({ user: user._id })
+    const tracks = await TrackHistory.find({user: user._id})
       .populate({
-        path: 'track',
+        path: "track",
         populate: {
-          path: 'album',
+          path: "album",
           populate: {
-            path: 'artist',
-            select: 'name'
+            path: "artist",
+            select: "name"
           },
-          select: 'name'
+          select: "name"
         }
       })
-      .sort({ datetime: -1 });
+      .sort({datetime: -1});
 
     res.send(tracks);
   } catch (error) {
