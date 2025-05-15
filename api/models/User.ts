@@ -61,7 +61,10 @@ const UserSchema = new mongoose.Schema<
     type: String,
     required: true,
   },
-  displayName: String,
+  displayName: {
+    type: String,
+    required: [true, "Display name is required"],
+  },
   googleId: String,
 }, {
   virtuals: {

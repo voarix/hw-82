@@ -10,8 +10,9 @@ import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { Alert, Button, TextField } from "@mui/material";
-import { login } from "./usersThunks.ts";
+import { googleLogin, login } from "./usersThunks.ts";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
 
 const initialForm: LoginMutation = {
   username: "",
@@ -41,6 +42,16 @@ const Login = () => {
     }
   };
 
+  const googleLoginHandler = async (credential: string) => {
+    try {
+      await dispatch(googleLogin(credential)).unwrap();
+      toast.success("Login with Google is successful");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -58,6 +69,19 @@ const Login = () => {
       </Typography>
 
       {error && <Alert severity="error">{error.error}</Alert>}
+
+      <Box sx={{ pt: 2 }}>
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+            if (credentialResponse.credential) {
+              void googleLoginHandler(credentialResponse.credential);
+            }
+          }}
+          onError={() => {
+            console.log("Login failed");
+          }}
+        />
+      </Box>
 
       <Box
         component="form"

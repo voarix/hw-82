@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 const initialForm: RegisterMutation = {
   username: "",
   password: "",
+  confirmPassword: "",
+  displayName: "",
 };
 
 const Register = () => {
@@ -98,6 +100,37 @@ const Register = () => {
               onChange={onInputChange}
               helperText={getFieldError("password")}
               error={Boolean(getFieldError("password"))}
+            />
+          </Grid>
+          <Grid size={{ xs: 12 }}>
+            <TextField
+              disabled={registerLoading}
+              fullWidth
+              name="confirmPassword"
+              label="Confirm password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="new-password"
+              value={form.confirmPassword}
+              onChange={onInputChange}
+              helperText={getFieldError("confirmPassword")}
+              error={Boolean(getFieldError("confirmPassword"))}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12 }}>
+            <TextField
+              disabled={registerLoading}
+              fullWidth
+              name="displayName"
+              label="Display Name"
+              type="text"
+              id="displayName"
+              autoComplete="nickname"
+              value={form.displayName}
+              onChange={onInputChange}
+              helperText={getFieldError("displayName")}
+              error={Boolean(getFieldError("displayName"))}
             />
           </Grid>
         </Grid>

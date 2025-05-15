@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Button, Menu, MenuItem } from "@mui/material";
 import { User } from "../../../types";
 import { useAppDispatch } from "../../../app/hooks.ts";
-import { logout } from "../../../features/users/usersSlice.ts";
+import { unsetUser } from "../../../features/users/usersSlice.ts";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllArtists } from "../../../features/artists/artistsThunks.ts";
+import { logout } from "../../../features/users/usersThunks.ts";
 
 interface Props {
   user: User;
@@ -26,7 +27,8 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleLogout = async () => {
     try {
-      dispatch(logout());
+      await dispatch(logout());
+      dispatch(unsetUser());
       navigate("/");
       await dispatch(fetchAllArtists());
       toast.success("Logout is successful");
@@ -72,7 +74,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         New Album
       </Link>
       <Button onClick={handeClick} color="inherit">
-        Hello, {user.username}
+        Hello, {user.displayName}
       </Button>
       <Menu
         keepMounted

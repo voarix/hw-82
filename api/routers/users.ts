@@ -62,6 +62,7 @@ usersRouter.post("/", async (req, res, next) => {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
+      displayName: req.body.displayName,
       confirmPassword: req.body.confirmPassword,
     });
 
@@ -81,7 +82,7 @@ usersRouter.post("/", async (req, res, next) => {
 usersRouter.post("/sessions", async (req, res, next) => {
   try {
     if (!req.body.username || !req.body.password) {
-      res.status(400).send({error: "Username and password must be in req"});
+      res.status(400).send({error: "Username or password or display name must be in req"});
       return;
     }
 

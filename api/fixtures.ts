@@ -19,9 +19,10 @@ const run = async () => {
   }
 
   const john = new User({
-    username: "John",
+    username: "John228",
     password: "123",
     confirmPassword: "123",
+    displayName: "John",
     role: "user",
   });
 
@@ -29,9 +30,10 @@ const run = async () => {
   await john.save();
 
   const jane = new User({
-    username: "Jane",
+    username: "Jane69",
     password: "123",
     confirmPassword: "123",
+    displayName: "Jane",
     role: "admin",
   });
 

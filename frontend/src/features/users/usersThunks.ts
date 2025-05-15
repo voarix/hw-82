@@ -8,6 +8,7 @@ import {
 } from "../../types";
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi.ts";
+import { RootState } from "../../app/store.ts";
 
 export interface RegisterAndLoginResponse {
   user: User;
@@ -62,6 +63,37 @@ export const login = createAsyncThunk<
   }
 });
 
-export const logout = createAsyncThunk<void, void>("users/logout", async () => {
-  await axiosApi.delete("users/sessions", { withCredentials: true });
+export const googleLogin = createAsyncThunk<
+  User,
+  string,
+  { rejectValue: GlobalError }
+>("users/googleLogin", async (googleId, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.post<RegisterAndLoginResponse>(
+      "/users/google",
+      { credential: googleId },
+    );
+    return response.data.user;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data);
+    }
+
+    throw error;
+  }
 });
+
+export const logout = createAsyncThunk<void, void, { state: RootState }>(
+  "users/logout",
+  async (_, { getState }) => {
+    const token = getState().users.user?.token;
+
+    await axiosApi.delete("users/sessions", {
+      headers: { Authorization: token },
+    });
+  },
+);
