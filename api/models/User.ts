@@ -66,6 +66,7 @@ const UserSchema = new mongoose.Schema<
     required: [true, "Display name is required"],
   },
   googleId: String,
+  avatar: String,
 }, {
   virtuals: {
     confirmPassword: {

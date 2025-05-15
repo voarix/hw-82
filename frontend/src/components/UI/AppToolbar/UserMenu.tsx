@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { Button, Menu, MenuItem, Avatar } from "@mui/material";
 import { User } from "../../../types";
 import { useAppDispatch } from "../../../app/hooks.ts";
 import { unsetUser } from "../../../features/users/usersSlice.ts";
@@ -75,6 +75,13 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       </Link>
       <Button onClick={handeClick} color="inherit">
         Hello, {user.displayName}
+        {user.avatar && (
+          <Avatar
+            src={user.avatar}
+            alt={user.displayName}
+            sx={{ ml: 2 }}
+          />
+        )}
       </Button>
       <Menu
         keepMounted

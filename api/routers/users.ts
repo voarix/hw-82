@@ -29,6 +29,7 @@ usersRouter.post("/google", async (req, res, next) => {
     const email = payload["email"];
     const googleId = payload["sub"];
     const displayName = payload["name"];
+    const avatar = payload["picture"];
 
     if (!email) {
       res.status(400).send({error: "Google login Error!"});
@@ -45,7 +46,10 @@ usersRouter.post("/google", async (req, res, next) => {
         confirmPassword: genPassword,
         displayName,
         googleId,
+        avatar,
       });
+    } else {
+      user.avatar = avatar;
     }
 
     user.generateToken();
