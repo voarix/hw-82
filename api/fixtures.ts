@@ -54,7 +54,7 @@ const run = async () => {
       info: "info2lkjl2",
       user: jane._id,
       isPublished: true,
-    }
+    },
   );
 
   const [album1, album2, album3, album4] = await Album.create(
@@ -89,7 +89,7 @@ const run = async () => {
       image: "fixtures/album4.jpg",
       user: jane._id,
       isPublished: true,
-    }
+    },
   );
 
   await Track.create(
@@ -100,6 +100,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 2",
@@ -108,6 +109,7 @@ const run = async () => {
       duration: "4:15",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 3",
@@ -116,6 +118,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 4",
@@ -124,6 +127,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 5",
@@ -132,6 +136,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
 
     {
@@ -141,6 +146,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 7",
@@ -149,6 +155,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 8",
@@ -157,6 +164,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 9",
@@ -165,6 +173,7 @@ const run = async () => {
       duration: "3:55",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 10",
@@ -173,6 +182,7 @@ const run = async () => {
       duration: "4:00",
       user: john._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
 
     {
@@ -182,6 +192,7 @@ const run = async () => {
       duration: "3:50",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 12",
@@ -190,6 +201,7 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 13",
@@ -198,6 +210,7 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 14",
@@ -206,6 +219,7 @@ const run = async () => {
       duration: "3:55",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 15",
@@ -214,6 +228,7 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
 
     {
@@ -223,6 +238,7 @@ const run = async () => {
       duration: "3:30",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 17",
@@ -231,6 +247,7 @@ const run = async () => {
       duration: "4:15",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 18",
@@ -239,6 +256,7 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 19",
@@ -247,6 +265,7 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "Track 20",
@@ -255,7 +274,8 @@ const run = async () => {
       duration: "4:00",
       user: jane._id,
       isPublished: true,
-    }
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
   );
 
   const artist3 = await Artist.create({
@@ -283,6 +303,7 @@ const run = async () => {
       duration: "3:30",
       user: john._id,
       isPublished: false,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "False Track 2",
@@ -291,6 +312,7 @@ const run = async () => {
       duration: "4:20",
       user: john._id,
       isPublished: false,
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     },
     {
       name: "False Track 3",
@@ -299,7 +321,9 @@ const run = async () => {
       duration: "3:45",
       user: john._id,
       isPublished: false,
-    });
+      youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    },
+  );
 
   await db.close();
 };

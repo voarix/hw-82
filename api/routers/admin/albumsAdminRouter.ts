@@ -23,14 +23,14 @@ albumsAdminRouter.delete("/:id", async (req, res, next) => {
 
     const album = await Album.findByIdAndDelete(id);
     if (!album) {
-      res.status(404).send({error: "Album not found"});
+      res.status(404).send({ error: "Album not found" });
       return;
     }
 
-    res.send({message: "Album deleted successfully"});
+    res.send({ message: "Album deleted successfully" });
   } catch (error) {
     if (error instanceof Error.CastError) {
-      res.status(400).send({error: "Invalid id "});
+      res.status(400).send({ error: "Invalid id " });
       return;
     }
 
@@ -42,25 +42,29 @@ albumsAdminRouter.patch("/:id/togglePublished", async (req, res, next) => {
   try {
     const id = req.params.id;
     if (!id) {
-      res.status(400).send({error: "Album id must be in req params"});
+      res.status(400).send({ error: "Album id must be in req params" });
       return;
     }
 
     const album = await Album.findById(id);
     if (!album) {
-      res.status(404).send({error: "Album not found"});
+      res.status(404).send({ error: "Album not found" });
       return;
     }
 
     const newAlbum = !album.isPublished;
-    const updateAlbum = await Album.findByIdAndUpdate(id, {isPublished: newAlbum}, {
-      new: true,
-      runValidators: true
-    });
+    const updateAlbum = await Album.findByIdAndUpdate(
+      id,
+      { isPublished: newAlbum },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
     res.send(updateAlbum);
   } catch (error) {
     if (error instanceof Error.CastError) {
-      res.status(400).send({error: "Invalid id "});
+      res.status(400).send({ error: "Invalid id " });
       return;
     }
     next(error);

@@ -19,7 +19,7 @@ const HistorySchema = new Schema({
         return !!user;
       },
       message: "User not found",
-    }
+    },
   },
   track: {
     type: Schema.Types.ObjectId,
@@ -43,7 +43,6 @@ const HistorySchema = new Schema({
     default: Date.now(),
   },
 });
-
 
 const TrackHistory = mongoose.model("TrackHistory", HistorySchema);
 export default TrackHistory;

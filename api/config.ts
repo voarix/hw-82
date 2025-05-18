@@ -9,7 +9,7 @@ const config = {
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   },
   publicPath: path.join(rootPath, "public"),
-  db: "mongodb://localhost/music-api"
+  db: "mongodb://localhost/music-api",
 };
 
 export default config;

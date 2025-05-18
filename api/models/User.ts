@@ -20,8 +20,8 @@ const ARGON2_OPTIONS = {
 };
 
 export const generateTokenJWT = (user: HydratedDocument<UserFields>) => {
-  return jwt.sign({_id: user._id}, JWT_SECRET, {expiresIn: "365d"})
-}
+  return jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: "365d" });
+};
 
 export const JWT_SECRET = process.env.JWT_SECRET || "default_fallback_secret";
 
@@ -33,60 +33,65 @@ const UserSchema = new mongoose.Schema<
   UserMethods,
   {},
   UserVirtuals
->({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    validate: {
-      validator: async function (value: string): Promise<boolean> {
-        if (!this.isModified("username")) return true;
-        const user: HydratedDocument<UserFields> | null = await User.findOne({username: value});
-        return !user;
+>(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: async function (value: string): Promise<boolean> {
+          if (!this.isModified("username")) return true;
+          const user: HydratedDocument<UserFields> | null = await User.findOne({
+            username: value,
+          });
+          return !user;
+        },
+        message: "This username is already taken",
       },
-      message: "This username is already taken"
-    }
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    role: {
+      type: String,
+      required: true,
+      default: "user",
+      enum: ["user", "admin"],
+    },
+    token: {
+      type: String,
+      required: true,
+    },
+    displayName: {
+      type: String,
+      required: [true, "Display name is required"],
+    },
+    googleId: String,
+    avatar: String,
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  role: {
-    type: String,
-    required: true,
-    default: "user",
-    enum: ["user", "admin"],
-  },
-  token: {
-    type: String,
-    required: true,
-  },
-  displayName: {
-    type: String,
-    required: [true, "Display name is required"],
-  },
-  googleId: String,
-  avatar: String,
-}, {
-  virtuals: {
-    confirmPassword: {
-      get() {
-        return this.__confirmPassword;
+  {
+    virtuals: {
+      confirmPassword: {
+        get() {
+          return this.__confirmPassword;
+        },
+        set(confirmPassword: string) {
+          this.__confirmPassword = confirmPassword;
+        },
       },
-      set(confirmPassword: string) {
-        this.__confirmPassword = confirmPassword;
-      }
-    }
-  }
-});
+    },
+  },
+);
 
 UserSchema.methods.checkPassword = async function (password: string) {
   return await argon2.verify(this.password, password);
-}
+};
 
 UserSchema.methods.generateToken = function () {
   this.token = generateTokenJWT(this);
-}
+};
 
 UserSchema.path("password").validate(async function (v: string) {
   if (!this.isModified("password")) return;
@@ -108,7 +113,7 @@ UserSchema.set("toJSON", {
   transform: (_doc, ret) => {
     delete ret.password;
     return ret;
-  }
+  },
 });
 
 const User = mongoose.model("User", UserSchema);

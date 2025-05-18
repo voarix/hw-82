@@ -3,7 +3,8 @@ import { Error } from "mongoose";
 import { TrackMutation } from "../types";
 import Track from "../models/Track";
 import auth, { RequestWithUser } from "../middleware/auth";
-import User from "../models/User";
+import User, { JWT_SECRET } from "../models/User";
+import jwt from "jsonwebtoken";
 
 const tracksRouter = express.Router();
 
@@ -13,23 +14,25 @@ tracksRouter.get("/", async (req, res, next) => {
     const album_id = req.query.album as string | undefined;
     let user = null;
 
-    const token = req.get("Authorization");
+    const reqCook = req as RequestWithUser;
+    const token = reqCook.cookies.token;
 
     if (token) {
-      user = await User.findOne({token});
+      const decoded = jwt.verify(token, JWT_SECRET) as { _id: string };
+      user = await User.findOne({ _id: decoded._id, token });
     }
 
     if (user) {
       if (artist_id) {
         const isPublishedTracks = await Track.find({
           artist: artist_id,
-          isPublished: true
+          isPublished: true,
         }).populate("artist", "name");
 
         const tracks = await Track.find({
           artist: artist_id,
           user: user._id,
-          isPublished: false
+          isPublished: false,
         }).populate("artist", "name");
 
         const allTracks = [...isPublishedTracks, ...tracks];
@@ -39,15 +42,14 @@ tracksRouter.get("/", async (req, res, next) => {
       } else if (album_id) {
         const isPublishedTracks = await Track.find({
           album: album_id,
-          isPublished: true
+          isPublished: true,
         }).populate("album", "name date");
 
         const tracks = await Track.find({
           album: album_id,
           user: user._id,
-          isPublished: false
+          isPublished: false,
         }).populate("album", "name date");
-
 
         const allTracks = [...isPublishedTracks, ...tracks];
         allTracks.sort((a, b) => b.number - a.number);
@@ -57,22 +59,23 @@ tracksRouter.get("/", async (req, res, next) => {
     }
 
     if (album_id) {
-      const tracks = await Track.find({album: album_id, isPublished: true})
-        .populate("album", "name date").sort({number: -1});
+      const tracks = await Track.find({ album: album_id, isPublished: true })
+        .populate("album", "name date")
+        .sort({ number: -1 });
       res.send(tracks);
       return;
     }
 
     if (artist_id) {
-      const tracks = await Track.find({isPublished: true})
+      const tracks = await Track.find({ isPublished: true })
         .populate({
           path: "album",
-          match: {artist: artist_id},
-          select: "name date"
+          match: { artist: artist_id },
+          select: "name date",
         })
-        .sort({number: -1});
+        .sort({ number: -1 });
 
-      const filteredTracks = tracks.filter(track => track.album !== null);
+      const filteredTracks = tracks.filter((track) => track.album !== null);
       res.send(filteredTracks);
       return;
     }
@@ -85,7 +88,9 @@ tracksRouter.post("/", auth, async (req, res, next) => {
   try {
     const user = (req as RequestWithUser).user;
 
-    const trackLast = await Track.findOne({album: req.body.album}).sort({number: -1}).select("number");
+    const trackLast = await Track.findOne({ album: req.body.album })
+      .sort({ number: -1 })
+      .select("number");
     const trackNumber = trackLast ? trackLast.number + 1 : 1;
 
     const newTrack: TrackMutation = {
@@ -101,7 +106,10 @@ tracksRouter.post("/", auth, async (req, res, next) => {
     await track.save();
     res.send(track);
   } catch (error) {
-    if (error instanceof Error.ValidationError || error instanceof Error.CastError) {
+    if (
+      error instanceof Error.ValidationError ||
+      error instanceof Error.CastError
+    ) {
       res.status(400).send(error);
       return;
     }
@@ -116,19 +124,19 @@ tracksRouter.delete("/:id", auth, async (req, res, next) => {
 
     const track = await Track.findById(id);
     if (!track) {
-      res.status(404).send({error: "Track not found"});
+      res.status(404).send({ error: "Track not found" });
       return;
     }
 
     if (String(track.user) === String(user._id) && !track.isPublished) {
       await Track.findByIdAndDelete(id);
-      res.send({message: "Track deleted successfully"});
+      res.send({ message: "Track deleted successfully" });
       return;
     }
-    res.status(403).send({error: "You must delete your own track"});
+    res.status(403).send({ error: "You must delete your own track" });
   } catch (error) {
     if (error instanceof Error.CastError) {
-      res.status(400).send({error: "Invalid id"});
+      res.status(400).send({ error: "Invalid id" });
       return;
     }
 

@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const TrackSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Name is required"]
+    required: [true, "Name is required"],
   },
   album: {
     type: Schema.Types.ObjectId,
@@ -42,9 +42,8 @@ const TrackSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
-  }
+  },
 });
-
 
 const Track = mongoose.model("Track", TrackSchema);
 export default Track;

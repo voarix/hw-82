@@ -24,14 +24,14 @@ artistsAdminRouter.delete("/:id", async (req, res, next) => {
 
     const artist = await Artist.findByIdAndDelete(id);
     if (!artist) {
-      res.status(404).send({error: "Artist not found"});
+      res.status(404).send({ error: "Artist not found" });
       return;
     }
 
-    res.send({message: "Artist deleted successfully"});
+    res.send({ message: "Artist deleted successfully" });
   } catch (error) {
     if (error instanceof Error.CastError) {
-      res.status(400).send({error: "Invalid id "});
+      res.status(400).send({ error: "Invalid id " });
       return;
     }
 
@@ -43,25 +43,29 @@ artistsAdminRouter.patch("/:id/togglePublished", async (req, res, next) => {
   try {
     const id = req.params.id;
     if (!id) {
-      res.status(400).send({error: "Artist id must be in req params"});
+      res.status(400).send({ error: "Artist id must be in req params" });
       return;
     }
 
     const artist = await Artist.findById(id);
     if (!artist) {
-      res.status(404).send({error: "Artist not found"});
+      res.status(404).send({ error: "Artist not found" });
       return;
     }
 
     const newArtist = !artist.isPublished;
-    const updateArtist = await Artist.findByIdAndUpdate(id, {isPublished: newArtist}, {
-      new: true,
-      runValidators: true
-    });
+    const updateArtist = await Artist.findByIdAndUpdate(
+      id,
+      { isPublished: newArtist },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
     res.send(updateArtist);
   } catch (error) {
     if (error instanceof Error.CastError) {
-      res.status(400).send({error: "Invalid id "});
+      res.status(400).send({ error: "Invalid id " });
       return;
     }
     next(error);

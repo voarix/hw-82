@@ -76,11 +76,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       <Button onClick={handeClick} color="inherit">
         Hello, {user.displayName}
         {user.avatar && (
-          <Avatar
-            src={user.avatar}
-            alt={user.displayName}
-            sx={{ ml: 2 }}
-          />
+          <Avatar src={user.avatar} alt={user.displayName} sx={{ ml: 2 }} />
         )}
       </Button>
       <Menu

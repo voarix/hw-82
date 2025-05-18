@@ -7,48 +7,37 @@ import {
 } from "../../types";
 import axiosApi from "../../axiosApi";
 import { isAxiosError } from "axios";
-import { RootState } from "../../app/store.ts";
 
 export const fetchTracksByAlbum = createAsyncThunk<
   ITrack[],
   string,
-  { rejectValue: ValidationError; state: RootState }
->(
-  "tracks/fetchTracksByAlbum",
-  async (albumId, { rejectWithValue, getState }) => {
-    try {
-      const token = getState().users.user?.token;
-
-      const response = await axiosApi.get<ITrack[]>(
-        `/tracks?album=${albumId}`,
-        { headers: { Authorization: token } },
-      );
-      return response.data;
-    } catch (error) {
-      if (
-        isAxiosError(error) &&
-        error.response &&
-        error.response.status === 400
-      ) {
-        return rejectWithValue(error.response.data as ValidationError);
-      }
-      throw error;
+  { rejectValue: ValidationError }
+>("tracks/fetchTracksByAlbum", async (albumId, { rejectWithValue }) => {
+  try {
+    const response = await axiosApi.get<ITrack[]>(`/tracks?album=${albumId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    if (
+      isAxiosError(error) &&
+      error.response &&
+      error.response.status === 400
+    ) {
+      return rejectWithValue(error.response.data as ValidationError);
     }
-  },
-);
+    throw error;
+  }
+});
 
 export const createTrack = createAsyncThunk<
   ITrack,
   TrackMutation,
-  { rejectValue: ValidationError | GlobalError; state: RootState }
->("tracks/createTrack", async (trackData, { rejectWithValue, getState }) => {
+  { rejectValue: ValidationError | GlobalError }
+>("tracks/createTrack", async (trackData, { rejectWithValue }) => {
   try {
-    const token = getState().users.user?.token;
-
     const response = await axiosApi.post<ITrack>("/tracks", trackData, {
-      headers: {
-        Authorization: token,
-      },
+      withCredentials: true,
     });
 
     return response.data;
@@ -69,16 +58,10 @@ export const createTrack = createAsyncThunk<
 export const deleteTrack = createAsyncThunk<
   void,
   string,
-  { rejectValue: GlobalError; state: RootState }
->("tracks/deleteTrack", async (trackId, { rejectWithValue, getState }) => {
+  { rejectValue: GlobalError }
+>("tracks/deleteTrack", async (trackId, { rejectWithValue }) => {
   try {
-    const token = getState().users.user?.token;
-
-    await axiosApi.delete(`/tracks/${trackId}`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    await axiosApi.delete(`/tracks/${trackId}`, { withCredentials: true });
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       return rejectWithValue(error.response.data);

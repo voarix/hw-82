@@ -7,7 +7,7 @@ import albumsAdminRouter from "./albumsAdminRouter";
 
 const adminRouter = express.Router();
 
-adminRouter.use(auth, permit("admin"))
+adminRouter.use(auth, permit("admin"));
 adminRouter.use("/artists", artistsAdminRouter);
 adminRouter.use("/tracks", tracksAdminRouter);
 adminRouter.use("/albums", albumsAdminRouter);

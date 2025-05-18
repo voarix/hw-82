@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const AlbumSchema = new Schema({
   name: {
     type: String,
-    required: [true, "Name is required"]
+    required: [true, "Name is required"],
   },
   artist: {
     type: Schema.Types.ObjectId,
@@ -37,9 +37,8 @@ const AlbumSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
-  }
+  },
 });
-
 
 const Album = mongoose.model("Album", AlbumSchema);
 export default Album;
