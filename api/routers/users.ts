@@ -4,6 +4,7 @@ import User from "../models/User";
 import auth, { RequestWithUser } from "../middleware/auth";
 import { OAuth2Client } from "google-auth-library";
 import config from "../config";
+import { userImage } from "../middleware/multer";
 
 const usersRouter = express.Router();
 const client = new OAuth2Client(config.google.clientId);
@@ -75,13 +76,14 @@ usersRouter.post("/google", async (req, res, next) => {
   }
 });
 
-usersRouter.post("/", async (req, res, next) => {
+usersRouter.post("/", userImage.single("avatar"), async (req, res, next) => {
   try {
     const user = new User({
       username: req.body.username,
       password: req.body.password,
       displayName: req.body.displayName,
       confirmPassword: req.body.confirmPassword,
+      avatar: req.file ? "users/" + req.file.filename : "/default.jpg",
     });
 
     user.generateToken();
@@ -98,6 +100,7 @@ usersRouter.post("/", async (req, res, next) => {
       username: user.username,
       role: user.role,
       displayName: user.displayName,
+      avatar: user.avatar,
     };
 
     res.send({ user: safeUser, message: "User registered successfully." });

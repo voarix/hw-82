@@ -31,3 +31,17 @@ export const albumImage = multer({
     },
   }),
 });
+
+export const userImage = multer({
+  storage: multer.diskStorage({
+    destination: async (_req, _file, cb) => {
+      const destDir = path.join(config.publicPath, "users");
+      await fs.mkdir(destDir, { recursive: true });
+      cb(null, destDir);
+    },
+    filename: (_req, file, cb) => {
+      const extension = path.extname(file.originalname);
+      cb(null, randomUUID() + extension);
+    },
+  }),
+});

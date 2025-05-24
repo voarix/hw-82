@@ -86,6 +86,7 @@ export interface RegisterMutation {
   password: string;
   displayName: string;
   confirmPassword: string;
+  avatar?: File | null;
 }
 
 export interface LoginMutation {

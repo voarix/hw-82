@@ -7,12 +7,13 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { fetchAllArtists } from "../../../features/artists/artistsThunks.ts";
 import { logout } from "../../../features/users/usersThunks.ts";
+import { apiUrl } from "../../../globalConstants.ts";
 
 interface Props {
   user: User;
 }
 
-const UserMenu: React.FC<Props> = ({ user }) => {
+const UserMenu: React.FC<Props> = ({user}) => {
   const navigate = useNavigate();
   const [userOptionsEl, setUserOptionsEl] = useState<HTMLElement | null>(null);
   const dispatch = useAppDispatch();
@@ -36,6 +37,18 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       toast.error("Logout is failed");
       console.error(e);
     }
+  };
+
+  const avatarUrl = (path: string) => {
+    if (!path) {
+      return "/default.jpg";
+    }
+
+    if (path.startsWith("http") || path.startsWith("https")) {
+      return path;
+    }
+
+    return `${apiUrl}/${path}`;
   };
 
   return (
@@ -76,7 +89,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       <Button onClick={handeClick} color="inherit">
         Hello, {user.displayName}
         {user.avatar && (
-          <Avatar src={user.avatar} alt={user.displayName} sx={{ ml: 2 }} />
+          <Avatar src={avatarUrl(user.avatar)} alt={user.displayName} sx={{ml: 2}}/>
         )}
       </Button>
       <Menu

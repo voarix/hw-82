@@ -12,12 +12,14 @@ import Typography from "@mui/material/Typography";
 import { Button, TextField } from "@mui/material";
 import { register } from "./usersThunks.ts";
 import { toast } from "react-toastify";
+import FileInput from "../../components/UI/FileInput.tsx";
 
 const initialForm: RegisterMutation = {
   username: "",
   password: "",
   confirmPassword: "",
   displayName: "",
+  avatar: null,
 };
 
 const Register = () => {
@@ -26,6 +28,19 @@ const Register = () => {
   const registerLoading = useAppSelector(selectRegisterLoading);
   const navigate = useNavigate();
   const [form, setForm] = useState<RegisterMutation>(initialForm);
+
+  const fileInputChangeHandler = (
+    eFile: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { files } = eFile.target;
+
+    if (files) {
+      setForm((prevState) => ({
+        ...prevState,
+        avatar: files[0],
+      }));
+    }
+  };
 
   const getFieldError = (fieldName: string) => {
     try {
@@ -131,6 +146,15 @@ const Register = () => {
               onChange={onInputChange}
               helperText={getFieldError("displayName")}
               error={Boolean(getFieldError("displayName"))}
+            />
+          </Grid>
+          <Grid size={{ sm: 12 }}>
+            <FileInput
+              name="avatar"
+              label="Avatar"
+              onChange={fileInputChangeHandler}
+              helperText={getFieldError("avatar")}
+              errors={Boolean(getFieldError("avatar"))}
             />
           </Grid>
         </Grid>
